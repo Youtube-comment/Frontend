@@ -7,7 +7,7 @@ function Menu(){
             <div className="menu_container">
                 <div className="menu_user">
                     <div className="menu_icon">
-                        사용자 아이콘 부분분
+                        사용자 아이콘 부분
                     </div>
                     <div className="menu_name">
                         사용자 이름부분
