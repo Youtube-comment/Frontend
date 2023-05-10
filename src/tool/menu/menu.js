@@ -8,18 +8,18 @@ function Menu(){
                 <div className="menu_appname">
                     유튜브댓글 자동처리
                 </div>
-                <div className="menu_main">
+                <Link to="/" className="menu_main">
                     Main
-                </div>
-                <div className="menu_veidos">
+                </Link>
+                <Link to ="/" className="menu_veidos">
                     Vedios
-                </div>
+                </Link>
                 <div className="menu_profile">
                     Profile
                 </div>
-                <div className="menu_islogin">
+                <Link to="/" className="menu_islogin">
                     로그아웃
-                </div>
+                </Link>
                 
             </div>
         </div>

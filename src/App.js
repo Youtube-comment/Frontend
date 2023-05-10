@@ -5,13 +5,11 @@ import Menu from './tool/menu/menu';
 function App() {
   return (
     <div className="App">
-      <div className='menu'>
         <Menu></Menu>
-      </div>
-      <div className='container'>
-
-      </div>
-      
+        
+        <Routes>
+          <Route path="/" element={<div>main</div>}/>
+        </Routes> 
     </div>
   );
 }
