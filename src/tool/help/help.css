@@ -1,0 +1,25 @@
+.help_Logo {
+    display: flex;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.help_item {
+    width: 28%;
+    margin-top : 60px;
+}
+.help_explanation {
+    margin-top: 60px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 80%;
+    padding: 22px;
+    border: 1px solid #E8E8E8;
+    border-radius: 10px;
+    background: skyblue;
+    margin-left: 10%;
+    margin-right: 10%;
+    text-align: left;
+  }
+  

@@ -1,0 +1,42 @@
+.main_profile {
+    width: 300px;
+    height: 1024px;
+    float: left;
+    background: gray;
+}
+  
+.main_video {
+    margin-left: 300px;
+}
+.main_subprofile{
+    display: flex;
+    justify-content: space-evenly;
+    text-align: center;
+}
+
+.main_profile_item{
+    text-align: center;
+    padding-top : 30px;
+}
+.main_video_item {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    text-align: center;
+    width: 80%;
+    margin: 0 auto ;
+  }
+  
+.main_video_item > div {
+    flex-basis: calc(33.33% - 20px);
+    margin-bottom: 20px;
+    padding: 10px;
+}
+
+.main_video_list {
+    background: skyblue;
+    width: 326px;
+    height: 184px;
+    margin: 0 auto ;
+}
+  

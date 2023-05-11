@@ -1,17 +1,19 @@
 .menu_bar{
     padding-top: 20px;
     padding-left: 20px;
+    margin-bottom: 30px;
     
 }
 .menu_container{
     display: flex;
-    justify-content: space-evenly;   
+    justify-content: left;  
+    text-align: center;
+
 }
 
 .menu_appname{
     font-weight: bold;
     font-size: large;
-    margin-right: 600px;
 }
 
 
