@@ -1,4 +1,5 @@
 import React, {useState} from "react";
+import {Route,Routes, Link} from "react-router-dom";
 import './menu.css';
 
 function Menu(){
@@ -11,7 +12,7 @@ function Menu(){
                 <Link to="/" className="menu_main">
                     Main
                 </Link>
-                <Link to ="/" className="menu_veidos">
+                <Link to ="/vedio" className="menu_veidos">
                     Vedios
                 </Link>
                 <div className="menu_profile">
