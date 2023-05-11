@@ -7,7 +7,7 @@
 .video_clip{
     width: 70%;
     border: 2px solid grey;
-    background-color: bisque;
+    background-color: rgb(147, 147, 147);
     display: flex;
     margin: 40px 60px 10px;
     height: 400px;
@@ -30,12 +30,12 @@
 .video_addCmt {
     display: flex;
     align-items: center; /* flex-start 대신 center로 변경하여 아이템들 정렬 */
-    padding: 10px 60px; /* 패딩 크기 조절 */
     font-family: 'Roboto', 'Noto', sans-serif;
+    margin-bottom: 50px;
   }
   
   .avatar {
-    margin-right: 12px; /* 아바타 간격 조절 */
+    margin-right: 15px; /* 아바타 간격 조절 */
     width: 40px; /* 아바타 이미지 크기 조절 */
     height: 40px;
   }
@@ -63,5 +63,25 @@
     border : 2px solid black
 
   }
+  .video_comment{
+    text-align: left;
+  }
+.video_sub{
+  display: flex;
+  margin-bottom: 30px;
+}
+.video_cmtIMG{
+  margin-right: 10px;
+}
+.name_time{
+  display: flex;
+}
+.video_cmtNAME{
+  margin-right: 5px;
+}
+.video_cmtTIME{
+  color: grey;
+  font-size: small;
+}
   
   

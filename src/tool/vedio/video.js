@@ -4,7 +4,8 @@ import './video.css'
 
 
 function Video(){
-    const userComment = useState([
+
+    const [userComment,setUser] = useState([
         {img :"/img/tera.png",
         name : "박병주",
         comment : "영상하나 올렸으니까 방송 하루 쉬겠다고하진않겠지?" },
@@ -18,6 +19,7 @@ function Video(){
         name : "최동우",
         comment : "ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ" },
     ])
+    console.log(userComment[1].name)
     return(
         <div className="video">
             <div className='video1'>
@@ -36,6 +38,37 @@ function Video(){
                         <input placeholder="댓글 추가..."
                         className="video_addcomment"/>
                     </div>
+                </div>
+                <div className='video_comment'>
+                    {
+                        userComment.map((a,i)=>
+                            <div key={i}>
+                                <div className='video_sub'>
+                                    <div className='video_cmtIMG'>
+                                        <img src={process.env.PUBLIC_URL + "/img/tera.png"} width="50px" height="50px" />
+                                    </div>
+                                    <div className='name_time_cmt'>
+                                        <div className='name_time'>
+                                            <div className='video_cmtNAME'>
+                                                {userComment[i].name}
+                                            </div>
+                                            <div className='video_cmtTIME'>
+                                                한 시간전
+                                            </div>
+                                        </div>
+                                    
+                                        <div className='video_cmt'>
+                                            {userComment[i].comment}
+                                        </div>
+                                    </div>
+
+                                    
+                                 </div>
+                            </div>
+                            
+                        )
+                    }
+                    
                 </div>
                 <div className='vedio_side'>
 

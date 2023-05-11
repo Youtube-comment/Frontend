@@ -1,0 +1,25 @@
+.videos_video {
+  margin-left: 300px;
+}
+
+.videos_video_item {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  text-align: center;
+  width: 80%;
+  margin: 0 auto ;
+}
+
+.videos_video_item > div {
+  flex-basis: calc(33.33% - 20px);
+  margin-bottom: 20px;
+  padding: 10px;
+}
+
+.videos_video_list {
+  background: skyblue;
+  width: 326px;
+  height: 184px;
+  margin: 0 auto ;
+}
