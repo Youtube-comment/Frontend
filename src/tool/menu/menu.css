@@ -1,15 +1,12 @@
 .menu_bar{
-    padding-top: 20px;
-    padding-left: 20px;
-    margin-bottom: 30px;
-    margin-right: 30px;
-    
+    padding: 29px;
+    width: 78vw;
 }
+
 .menu_container{
     display: flex;
     justify-content: left;  
     text-align: center;
-
 }
 
 .menu_appname{

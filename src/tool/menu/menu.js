@@ -7,7 +7,7 @@ function Menu(){
         <div className="menu_bar">
             <div className="menu_container">
                 <div className="menu_appname">
-                    유튜브댓글 자동처리
+                    CapTube
                 </div>
             </div>
         </div>
