@@ -19,9 +19,16 @@ function Video(){
         name : "최동우",
         comment : "ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ" },
     ])
-    console.log(userComment[1].name)
+    const [playlist, setPlaylist] = useState([
+        {title: '여름옷 추천1', duration: '4:00'},
+        {title: '여름옷 추천2', duration: '5:30'},
+        {title: '여름옷 추천3', duration: '6:45'},
+        // ... more videos
+      ]);
+    
     return(
         <div className="video">
+            <div className='gd'>
             <div className='video1'>
                 <div className="video_main">
                         <div className='video_clip'></div>
@@ -69,10 +76,9 @@ function Video(){
                         )
                     }
                     
-                </div>
-                <div className='vedio_side'>
-
-                </div>
+                </div>  
+            </div>
+            <div className='video_side'></div>
             </div>
             
             
