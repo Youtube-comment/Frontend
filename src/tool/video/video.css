@@ -1,14 +1,23 @@
 .video{
-    padding-bottom: 100px;
+    margin-top: 30px;
+    width: 90%;
     
+}
+.video_area{
+  display: flex;
+}
+.video1{
+  width: 60%;
+  margin-right: 65px;
+  
 }
 
 .video_clip{
-    width: 70%;
+   
     border: 2px solid grey;
     background-color: rgb(147, 147, 147);
     display: flex;
-    margin: 40px 60px 10px;
+    
     height: 400px;
 }
 .video_side{
@@ -21,7 +30,7 @@
 .video_name{
     font-size: larger;
     font-weight: bold;
-    margin-left: 60px;
+   
     text-align: left;
 }
 
@@ -30,7 +39,7 @@
     display: flex;
     align-items: center; /* flex-start 대신 center로 변경하여 아이템들 정렬 */
     font-family: 'Roboto', 'Noto', sans-serif;
-    margin-bottom: 50px;
+    margin-bottom: 70px;
   }
   
   .avatar {
@@ -82,5 +91,24 @@
   color: grey;
   font-size: small;
 }
+.video2{
+  width: 30%;
   
+}
+.side_area{
+  display: flex;
+  margin-bottom: 30px;
+  border: 1px solid rgba(255, 255, 255, 0.843);
+  padding: 5px;
+}
+.side_img{
+  margin-right: 20px;
+}
+.side_content{
+  display: flex;
+  flex-direction: column;
+  justify-content :space-between;
+  text-align: left;
   
+}
+

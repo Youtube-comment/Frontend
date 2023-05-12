@@ -20,35 +20,69 @@ function Video(){
         comment : "ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ" },
     ])
     const [playlist, setPlaylist] = useState([
-        {title: '여름옷 추천1', duration: '4:00'},
-        {title: '여름옷 추천2', duration: '5:30'},
-        {title: '여름옷 추천3', duration: '6:45'},
-        // ... more videos
+        {img : "/img/tera.png", title: '여름옷 추천1', duration: '한 시간 전' , 조회수 : '14만회'},
+        {img : "/img/tera.png", title: '여름옷 추천2', duration: '일주일 전',조회수 : '29만회'},
+        {img : "/img/tera.png", title: '여름옷 추천3', duration: '한달 전',조회수 : '39만회'},
+        
+        
       ]);
     
     return(
         <div className="video">
-            <div className='gd'>
-            <div className='video1'>
-                <div className="video_main">
-                        <div className='video_clip'></div>
-                    <p className="video_name">
-                        유행 따위 없는 가장 먼저 사야하는 여름옷
-                    </p>
-                </div>
-                <div className="video_addCmt">
-                    <div className="avatar">
-                        <img src={process.env.PUBLIC_URL + "/img/tera.png"} width="50px" height="50px" />
+            <div className='video_area'>
+                <div className='video1'>
+                    <div className="video_main">
+                            <div className='video_clip'></div>
+                        <p className="video_name">
+                            유행 따위 없는 가장 먼저 사야하는 여름옷
+                        </p>
                     </div>
-                    <div className="input-container">
-                        {/* 텍스트 입력창 */}
-                        <input placeholder="댓글 추가..."
-                        className="video_addcomment"/>
+                    <div className="video_addCmt">
+                        <div className="avatar">
+                            <img src={process.env.PUBLIC_URL + "/img/tera.png"} width="50px" height="50px" />
+                        </div>
+                        <div className="input-container">
+                            {/* 텍스트 입력창 */}
+                            <input placeholder="댓글 추가..."
+                            className="video_addcomment"/>
+                        </div>
+                    </div>
+                    <Video_addcomment comment={userComment}/>
+                </div>
+                
+                <Video_side playlist={playlist}/> 
+            </div>
+            
+            
+        </div>
+    )
+}
+
+function Video_side(props){
+    return(
+        <div className='video2'>
+            
+            {
+                props.playlist.map((a,i)=>
+                <div className='side_area' key={i}>
+                    <div className='side_img'> <img src={process.env.PUBLIC_URL + "/img/tera.png"} width="100px" height="100px" /></div>
+                    <div className='side_content'>
+                        <div className='side_title'>{props.playlist[i].title}</div>
+                        <div className='side_views'>조회수 : {props.playlist[i].조회수}</div>
+                        <div className='side_time'>{props.playlist[i].duration}</div>
                     </div>
                 </div>
-                <div className='video_comment'>
+                )
+            }
+            
+        </div>
+    )
+}
+function Video_addcomment(props){
+    return(
+        <div className='video_comment'>
                     {
-                        userComment.map((a,i)=>
+                        props.comment.map((a,i)=>
                             <div key={i}>
                                 <div className='video_sub'>
                                     <div className='video_cmtIMG'>
@@ -57,7 +91,7 @@ function Video(){
                                     <div className='name_time_cmt'>
                                         <div className='name_time'>
                                             <div className='video_cmtNAME'>
-                                                {userComment[i].name}
+                                                {props.comment[i].name}
                                             </div>
                                             <div className='video_cmtTIME'>
                                                 한 시간전
@@ -65,7 +99,7 @@ function Video(){
                                         </div>
                                     
                                         <div className='video_cmt'>
-                                            {userComment[i].comment}
+                                            {props.comment[i].comment}
                                         </div>
                                     </div>
 
@@ -77,12 +111,6 @@ function Video(){
                     }
                     
                 </div>  
-            </div>
-            <div className='video_side'></div>
-            </div>
-            
-            
-        </div>
     )
 }
 
