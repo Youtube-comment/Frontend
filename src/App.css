@@ -2,6 +2,23 @@
   text-align: center;
 }
 
+
+.App_menu{
+  background: #FFFFFF;
+  margin-left: 250px;
+}
+
+.App_content{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  text-align: center;
+  margin-left: 250px;
+  background: #e4e4e4;
+  min-height: 87vh;
+}
+
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;
