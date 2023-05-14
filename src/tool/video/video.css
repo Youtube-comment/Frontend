@@ -1,114 +1,169 @@
-.video{
-    margin-top: 30px;
-    width: 90%;
-    
+.video {
+  margin-top: 30px;
+  width: 90%;
 }
-.video_area{
+.video_area {
   display: flex;
 }
-.video1{
+.video1 {
   width: 60%;
   margin-right: 65px;
-  
 }
 
-.video_clip{
-   
-    border: 2px solid grey;
-    background-color: rgb(147, 147, 147);
-    display: flex;
-    
-    height: 400px;
-}
-.video_side{
-    width: 25%;
-    height: 400px;
-    margin-left: auto;
-    border: 2px solid grey;
-    background-color: aqua;
-}
-.video_name{
-    font-size: larger;
-    font-weight: bold;
-   
-    text-align: left;
-}
+.video_clip {
+  border: 2px solid grey;
+  background-color: rgb(147, 147, 147);
+  display: flex;
 
+  height: 400px;
+}
+.video_side {
+  width: 25%;
+  height: 400px;
+  margin-left: auto;
+  border: 2px solid grey;
+  background-color: aqua;
+}
+.video_name {
+  font-size: larger;
+  font-weight: bold;
+
+  text-align: left;
+}
 
 .video_addCmt {
-    display: flex;
-    align-items: center; /* flex-start 대신 center로 변경하여 아이템들 정렬 */
-    font-family: 'Roboto', 'Noto', sans-serif;
-    margin-bottom: 70px;
-  }
-  
-  .avatar {
-    margin-right: 15px; /* 아바타 간격 조절 */
-    width: 40px; /* 아바타 이미지 크기 조절 */
-    height: 40px;
-  }
-  
-  .input-container {
-    display: flex;
-    flex-grow: 1;
-    flex-shrink: 1;
-    border: solid 1px #dadce0;
-    border-radius: 4px;
-  }
-  
-  .video_addcomment {
-    flex-grow: 1;
-    flex-shrink: 1;
-    font-size: 1.2rem; /* 폰트 크기 조절 */
-    color: #3c4043;
-    padding: 6px; /* 패딩 크기 조절 */
-    border: none;
-    outline: none;
-  }
-  .video_commentMain{
-    width: 70%;
-    margin-left: 60px;
-    border : 2px solid black
+  display: flex;
+  align-items: center; /* flex-start 대신 center로 변경하여 아이템들 정렬 */
+  font-family: "Roboto", "Noto", sans-serif;
+  margin-bottom: 70px;
+}
 
-  }
-  .video_comment{
-    text-align: left;
-  }
-.video_sub{
+.avatar {
+  margin-right: 15px; /* 아바타 간격 조절 */
+  width: 40px; /* 아바타 이미지 크기 조절 */
+  height: 40px;
+}
+
+.video_commentMain {
+  width: 70%;
+  margin-left: 60px;
+  border: 2px solid black;
+}
+.video_comment {
+  text-align: left;
+}
+.video_sub {
   display: flex;
   margin-bottom: 30px;
 }
-.video_cmtIMG{
+.video_cmtIMG {
   margin-right: 10px;
 }
-.name_time{
+.name_time {
   display: flex;
 }
-.video_cmtNAME{
+.video_cmtNAME {
   margin-right: 5px;
 }
-.video_cmtTIME{
+.video_cmtTIME {
   color: grey;
   font-size: small;
 }
-.video2{
+.video2 {
   width: 30%;
-  
 }
-.side_area{
+.side_area {
   display: flex;
   margin-bottom: 30px;
   border: 1px solid rgba(255, 255, 255, 0.843);
   padding: 5px;
 }
-.side_img{
+.side_img {
   margin-right: 20px;
 }
-.side_content{
+.side_content {
   display: flex;
   flex-direction: column;
-  justify-content :space-between;
+  justify-content: space-between;
   text-align: left;
-  
+}
+.video_response {
+  display: flex;
+}
+.video_like {
+  display: flex;
+  margin-right: 20px;
+}
+.video_dislike {
+  display: flex;
 }
 
+.input-container {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2px;
+  align-items: center;
+}
+
+input {
+  font-size: 15px;
+  color: #222222;
+  width: 300px;
+  border: none;
+  border-bottom: solid #aaaaaa 1px;
+  padding-bottom: 5px;
+  padding-left: 10px;
+  position: relative;
+  background: none;
+  z-index: 5;
+}
+button {
+  width: 60px;
+  display: inline-block;
+
+  border: none;
+  background: none;
+}
+input::placeholder {
+  color: #aaaaaa;
+}
+input:focus {
+  outline: none;
+}
+
+.spantest {
+  /* right로만 바꿔주면 오 - 왼 */
+  background-color: #666;
+  width: 0;
+  height: 2px;
+  border-radius: 2px;
+  margin-top: -3px;
+  transition: 0.5s;
+}
+
+label {
+  position: absolute;
+  color: #aaa;
+  font-size: 20px;
+  transition: all 0.2s;
+}
+
+input:focus ~ label,
+input:valid ~ label {
+  font-size: 16px;
+  top: 560px;
+  color: #666;
+  font-weight: bold;
+}
+
+input:focus ~ .spantest,
+input:valid ~ .spantest {
+  width: 100%;
+  background: #666;
+}
+.input-container-add {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-left: 70%;
+}
