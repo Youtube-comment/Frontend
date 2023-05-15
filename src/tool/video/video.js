@@ -157,7 +157,9 @@ function Video_addcomment(props) {
                 >
                   답글
                 </span>
-                {답글[i] === 1 ? <Add /> : null}
+                {답글[i] === 1 ? (
+                  <Add 답글={답글} set답글={set답글} i={i} />
+                ) : null}
               </div>
             </div>
           </div>
@@ -167,13 +169,22 @@ function Video_addcomment(props) {
   );
 }
 
-function Add() {
+function Add(props) {
   return (
     <form className="input-container">
-      <input type="text" required placeholder="답글추가..." />
+      <input type="text" placeholder="답글추가..." />
       <span className="spantest"></span>
       <div className="input-container-add">
-        <button>취소</button>
+        <button
+          onClick={() => {
+            let copy = [...props.답글];
+            copy[props.i] = 0;
+            props.set답글(copy);
+          }}
+        >
+          취소
+        </button>
+        <button>GPT</button>
         <button>답글</button>
       </div>
     </form>
