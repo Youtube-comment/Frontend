@@ -3,12 +3,11 @@
   flex-wrap: wrap;
   justify-content: flex-start;
   text-align: center;
-  width: 90%;
-  margin: 0 auto ;
+  margin: 0 auto;
 }
 
 .videos_video_item > div {
-  flex-basis: calc(33.33% - 20px);
+  flex-basis: calc(33.333% - 20px);
   margin-bottom: 20px;
   padding: 10px;
 }
@@ -17,23 +16,23 @@
   background: skyblue;
   width: 326px;
   height: 184px;
-  margin: 0 auto ;
+  margin: 0 auto;
   border-radius: 5%;
 }
-.videos_submenu{
+.videos_submenu {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
 }
 
-.videos_sort{
+.videos_sort {
   display: flex;
   flex-direction: row;
   justify-content: left;
-  padding: 15px 10px 15px 80px;
+  padding: 15px 10px;
 }
 
-.videos_newbtn{
+.videos_newbtn {
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -41,26 +40,26 @@
   height: 32px;
   padding: 0 10px;
   gap: 15px;
-  background: #F2F2F2;
+  background: #f2f2f2;
   border: none;
   border-radius: 8px;
   margin-right: 10px;
 }
 
-.videos_popularbtn{
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    height: 32px;
-    padding: 0 10px;
-    gap: 15px;
-    background: #F2F2F2;
-    border: none;
-    border-radius: 8px;
+.videos_popularbtn {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  height: 32px;
+  padding: 0 10px;
+  gap: 15px;
+  background: #f2f2f2;
+  border: none;
+  border-radius: 8px;
 }
 
-.videos_search{
+.videos_search {
   display: flex;
   flex-direction: row;
   justify-content: right;
@@ -68,7 +67,7 @@
   padding: 15px 80px 15px 0;
 }
 
-.videos_search_text{
+.videos_search_text {
   border: 1px solid #bbb;
   border-radius: 8px;
   padding: 10px 12px;
@@ -76,7 +75,7 @@
   margin-right: 10px;
 }
 
-.videos_search_btn{
+.videos_search_btn {
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -84,7 +83,7 @@
   height: 32px;
   padding: 0 10px;
   gap: 15px;
-  background: #FFFFFF;
+  background: #ffffff;
   border: none;
   border-radius: 8px;
 }
@@ -95,7 +94,7 @@
   cursor: pointer; /* 커서 모양 변경 */
 }
 
-.chagebg{
+.chagebg {
   display: flex;
   flex-direction: row;
   justify-content: center;

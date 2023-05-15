@@ -7,7 +7,7 @@ function Login() {
     onSuccess: (codeResponse) => {
       console.log(codeResponse.code);
       axios
-        .post(`${process.env.REACT_APP_API_KEY}/api/google-login/`, {
+        .post(`${process.env.REACT_APP_URL}/api/google-login/`, {
           code: codeResponse.code,
         })
         .then((result) => {
