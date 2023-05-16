@@ -16,6 +16,7 @@ import { GoogleLogin, GoogleOAuthProvider } from "@react-oauth/google";
 
 function App() {
   const [token, setToken] = useState(null);
+
   useEffect(() => {
     const fetchedToken = localStorage.getItem("access_token");
     if (fetchedToken) {
@@ -34,7 +35,7 @@ function App() {
 
         <div className="App_content">
           <Routes>
-            <Route path="video" element={<Video />} />
+            <Route path="video/:id" element={<Video token={token} />} />
             <Route path="/" element={<Main />} />
             <Route path="/videos" element={<Videos token={token} />} />
             <Route path="/list" element={<List />} />

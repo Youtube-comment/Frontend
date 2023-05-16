@@ -4,6 +4,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { cookie, getCookie } from "../util/Cookie";
 import "./videos.css";
+import { Route, Routes, Link, useNavigate } from "react-router-dom";
 
 function Videos(props) {
   let [video, setVideo] = useState([]);
@@ -18,7 +19,7 @@ function Videos(props) {
       })
       .then((result) => {
         const videodatas = result.data.items.map((item) => item.snippet);
-
+        console.log(result.data.items);
         setVideo(videodatas);
       })
       .catch((result) => {
@@ -65,7 +66,7 @@ function Videos(props) {
           </div>
           <div className="videos_video_item">
             {video.map((a, i) => {
-              return <Video key={i} video={a}></Video>;
+              return <Video_item key={i} video={a} token={props.token} />;
             })}
           </div>
         </div>
@@ -74,11 +75,28 @@ function Videos(props) {
   );
 }
 
-function Video(props) {
+function Video_item(props) {
+  let navigate = useNavigate();
   return (
     <div>
       <div key={props.i} className="videos_video_list">
         <img
+          onClick={() => {
+            navigate(`/video/${props.video.resourceId.videoId}`);
+            axios
+              .post(`${process.env.REACT_APP_URL}/api/get-comment-list/`, {
+                id: props.video.resourceId.videoId,
+                headers: {
+                  Authorization: props.token,
+                },
+              })
+              .then((result) => {
+                console.log(result);
+              })
+              .catch((result) => {
+                console.log(result);
+              });
+          }}
           src={props.video.thumbnails.high.url}
           alt="thumbmail"
           style={{ width: "326px", height: "184px" }}
