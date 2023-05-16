@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { Cookies } from "react-cookie";
 import "./video.css";
 import { Button } from "bootstrap";
 
