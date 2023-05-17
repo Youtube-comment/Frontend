@@ -80,30 +80,12 @@ function Videos(props) {
 function Video_item(props) {
   let navigate = useNavigate();
 
-  const getComments = async () => {
-    try {
-      const response = await axios.post(
-        `${process.env.REACT_APP_URL}/api/get-comment-list/`,
-        {
-          id: props.video.resourceId.videoId,
-        },
-        {
-          headers: { Authorization: props.token },
-        }
-      );
-      console.log(response);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   return (
     <div>
       <div key={props.i} className="videos_video_list">
         <img
           onClick={() => {
             navigate(`/video/${props.video.resourceId.videoId}`);
-            getComments();
           }}
           src={props.video.thumbnails.high.url}
           alt="thumbmail"
