@@ -1,8 +1,13 @@
 import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { Cookies } from "react-cookie";
 import "./video.css";
+import axios from "axios";
 import { Button } from "bootstrap";
 
-function Video() {
+function Video(props) {
+  let { id } = useParams();
+
   const [userComment, setUser] = useState([
     {
       img: "/img/tera.png",
