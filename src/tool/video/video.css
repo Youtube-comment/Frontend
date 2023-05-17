@@ -164,6 +164,5 @@ input:valid ~ .spantest {
 .input-container-add {
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding-left: 70%;
+  padding-left: 60%;
 }
