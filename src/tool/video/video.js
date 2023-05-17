@@ -4,24 +4,9 @@ import { Cookies } from "react-cookie";
 import "./video.css";
 import axios from "axios";
 import { Button } from "bootstrap";
-import { cookie, getCookie } from "../util/Cookie";
 
 function Video(props) {
   let { id } = useParams();
-
-  const token = getCookie("access_token")
-  useEffect(()=>{
-    axios.post(`${process.env.REACT_APP_URL}/api/get-comment-list/`, {
-      data: {
-        id: id
-      },
-      headers: {
-        Authorization: token,
-      },
-    })
-    .then((result)=> { 
-      console.log(result);
-  })
 
   const [userComment, setUser] = useState([
     {
