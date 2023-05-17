@@ -10,12 +10,8 @@ function Videos(props) {
   let [video, setVideo] = useState([]);
   let [btnbg, setBtnbg] = useState(["", ""]);
 
-  const [token, setToken] = useState(null);
-  useEffect(() => {
-    setToken(getCookie("access_token"));
-    console.log("Token: ", token);
-  }, [token]);
-  console.log(token);
+  const token = getCookie("access_token");
+
   useEffect(() => {
     axios
       .get(`${process.env.REACT_APP_URL}/api/get-youtube-list/`, {

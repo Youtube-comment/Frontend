@@ -15,12 +15,7 @@ import List from "./tool/videolist/list";
 import { GoogleLogin, GoogleOAuthProvider } from "@react-oauth/google";
 
 function App() {
-  const [token, setToken] = useState(null);
-  useEffect(() => {
-    setToken(getCookie("access_token"));
-    console.log("Token: ", token);
-  }, [token]);
-  console.log(token);
+  const token = getCookie("access_token");
   return (
     <div className="App">
       <GoogleOAuthProvider clientId={process.env.REACT_APP_CLIENT_ID}>
