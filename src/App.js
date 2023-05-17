@@ -16,15 +16,11 @@ import { GoogleLogin, GoogleOAuthProvider } from "@react-oauth/google";
 
 function App() {
   const [token, setToken] = useState(null);
-
   useEffect(() => {
-    const fetchedToken = localStorage.getItem("access_token");
-    if (fetchedToken) {
-      setToken(fetchedToken);
-    }
+    setToken(getCookie("access_token"));
     console.log("Token: ", token);
-  }, []);
-
+  }, [token]);
+  console.log(token);
   return (
     <div className="App">
       <GoogleOAuthProvider clientId={process.env.REACT_APP_CLIENT_ID}>

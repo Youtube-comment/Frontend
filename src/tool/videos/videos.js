@@ -10,11 +10,17 @@ function Videos(props) {
   let [video, setVideo] = useState([]);
   let [btnbg, setBtnbg] = useState(["", ""]);
 
+  const [token, setToken] = useState(null);
+  useEffect(() => {
+    setToken(getCookie("access_token"));
+    console.log("Token: ", token);
+  }, [token]);
+  console.log(token);
   useEffect(() => {
     axios
       .get(`${process.env.REACT_APP_URL}/api/get-youtube-list/`, {
         headers: {
-          Authorization: props.token,
+          Authorization: token,
         },
       })
       .then((result) => {
@@ -25,7 +31,7 @@ function Videos(props) {
       .catch((result) => {
         console.log(result);
       });
-  }, [props.token]);
+  }, [token]);
   console.log(video);
 
   return (
@@ -66,7 +72,7 @@ function Videos(props) {
           </div>
           <div className="videos_video_item">
             {video.map((a, i) => {
-              return <Video_item key={i} video={a} token={props.token} />;
+              return <Video_item key={i} video={a} token={token} />;
             })}
           </div>
         </div>

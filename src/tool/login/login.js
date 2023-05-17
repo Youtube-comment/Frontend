@@ -1,6 +1,7 @@
 import { useGoogleLogin } from "@react-oauth/google";
 import GoogleButton from "react-google-button";
 import axios from "axios";
+import { setCookie, getCookie } from "../util/Cookie";
 
 function Login() {
   const googleSocialLogin = useGoogleLogin({
@@ -15,8 +16,12 @@ function Login() {
           let a = result.data.email.name + "님 환영합니다." + result.data.new;
           alert(a);
           const tokens = result.data.jwt;
-          localStorage.setItem("access_token", tokens.access);
-          localStorage.setItem("refresh_token", tokens.refresh);
+          setCookie("access_token", tokens.access, {
+            path: "/",
+            maxAge: 18000,
+          }); // 로그인 성공 후 쿠키 설정
+          // localStorage.setItem("access_token", tokens.access);
+          // localStorage.setItem("refresh_token", tokens.refresh);
         })
         .catch((result) => {
           console.log(result);
