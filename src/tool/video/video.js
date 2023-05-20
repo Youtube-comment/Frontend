@@ -1,12 +1,37 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import { Cookies } from "react-cookie";
+import { cookie, getCookie } from "../util/Cookie";
 import "./video.css";
 import axios from "axios";
 import { Button } from "bootstrap";
 
 function Video(props) {
   let { id } = useParams();
+  const token = getCookie("access_token");
+
+  useEffect(() => {
+    getComments();
+  });
+  
+  const getComments = async () => {
+    try {
+      const response = await axios.post(
+        `${process.env.REACT_APP_URL}/api/get-comment-list/`,
+        {
+          id: id,
+        },
+        {
+          headers: { Authorization: token },
+        }
+      );
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+
 
   const [userComment, setUser] = useState([
     {
