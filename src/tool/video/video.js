@@ -8,6 +8,7 @@ import { Button } from "bootstrap";
 
 function Video(props) {
   let { id } = useParams();
+  const [userComment, setUser] = useState([]);
   const token = getCookie("access_token");
 
   useEffect(() => {
@@ -25,28 +26,16 @@ function Video(props) {
           headers: { Authorization: token },
         }
       );
-      console.log(response);
+      const commentdatas = response.data.items.map(
+        (item) => item.snippet.topLevelComment
+      );
+      // console.log(response.data.items);
+      setUser(commentdatas);
     } catch (error) {
       console.log(error);
     }
   };
 
-
-
-  const [userComment, setUser] = useState([
-    {
-      img: "/img/tera.png",
-      name: "박병주",
-      comment: "영상하나 올렸으니까 방송 하루 쉬겠다고하진않겠지?",
-    },
-    { img: "/img/tera.png", name: "박준영", comment: "왤케 못함??" },
-    { img: "/img/tera.png", name: "김진우", comment: "내가 저거보단 잘하겠네" },
-    {
-      img: "/img/tera.png",
-      name: "최동우",
-      comment: "ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ",
-    },
-  ]);
   const [playlist, setPlaylist] = useState([
     {
       img: "/img/tera.png",
@@ -126,10 +115,38 @@ function Video_side(props) {
     </div>
   );
 }
-function Video_addcomment(props) {
-  let [like, setLike] = useState(Array(props.comment.length).fill(0));
-  let [dislike, setDisLike] = useState(Array(props.comment.length).fill(0));
+function calculateElapsedTime(updatedAt) {
+  const ONE_MINUTE_IN_MILLISECONDS = 60 * 1000; // 1분을 밀리초로 계산
+  const ONE_HOUR_IN_MILLISECONDS = 60 * ONE_MINUTE_IN_MILLISECONDS; // 1시간을 밀리초로 계산
+  const ONE_DAY_IN_MILLISECONDS = 24 * ONE_HOUR_IN_MILLISECONDS; // 1일을 밀리초로 계산
+  const ONE_MONTH_IN_MILLISECONDS = 30 * ONE_DAY_IN_MILLISECONDS; // 1달을 밀리초로 계산
 
+  const currentTimestamp = new Date().getTime(); // 현재 시간의 타임스탬프를 구함
+  const updatedAtTimestamp = new Date(updatedAt).getTime(); // 업데이트된 시간의 타임스탬프를 구함
+
+  const elapsedTimestamp = currentTimestamp - updatedAtTimestamp; // 업데이트된 시간과 현재 시간의 차이를 구함
+
+  if (elapsedTimestamp < ONE_HOUR_IN_MILLISECONDS) {
+    const elapsedMinutes = Math.floor(
+      elapsedTimestamp / ONE_MINUTE_IN_MILLISECONDS
+    );
+    return `${elapsedMinutes}분 전`;
+  } else if (elapsedTimestamp < ONE_DAY_IN_MILLISECONDS) {
+    const elapsedHours = Math.floor(
+      elapsedTimestamp / ONE_HOUR_IN_MILLISECONDS
+    );
+    return `${elapsedHours}시간 전`;
+  } else if (elapsedTimestamp < ONE_MONTH_IN_MILLISECONDS) {
+    const elapsedDays = Math.floor(elapsedTimestamp / ONE_DAY_IN_MILLISECONDS);
+    return `${elapsedDays}일 전`;
+  } else {
+    const elapsedMonths = Math.floor(
+      elapsedTimestamp / ONE_MONTH_IN_MILLISECONDS
+    );
+    return `${elapsedMonths}개월 전`;
+  }
+}
+function Video_addcomment(props) {
   let [답글, set답글] = useState(Array(props.comment.length).fill(0));
 
   return (
@@ -146,35 +163,26 @@ function Video_addcomment(props) {
             </div>
             <div className="name_time_cmt">
               <div className="name_time">
-                <div className="video_cmtNAME">{props.comment[i].name}</div>
-                <div className="video_cmtTIME">한 시간전</div>
+                <div className="video_cmtNAME">
+                  {props.comment[i].snippet.authorDisplayName}
+                </div>
+                <div className="video_cmtTIME">
+                  {calculateElapsedTime(props.comment[i].snippet.publishedAt)}
+                </div>
               </div>
 
-              <div className="video_cmt">{props.comment[i].comment}</div>
+              <div className="video_cmt">
+                {props.comment[i].snippet.textDisplay}
+              </div>
               <div className="video_response">
                 <div className="video_like">
-                  <span
-                    onClick={() => {
-                      let copy = [...like];
-                      copy[i] += 1;
-                      setLike(copy);
-                    }}
-                  >
-                    👍
-                  </span>
-                  <div className="video_setLike">{like[i]}</div>
+                  <span>👍</span>
+                  <div className="video_setLike">
+                    {props.comment[i].snippet.likeCount}
+                  </div>
                 </div>
                 <div className="video_like">
-                  <span
-                    onClick={() => {
-                      let copy = [...dislike];
-                      copy[i]++;
-                      setDisLike(copy);
-                    }}
-                  >
-                    👎
-                  </span>
-                  <div className="video_setDisLike">{dislike[i]}</div>
+                  <span>👎</span>
                 </div>
                 <span
                   onClick={() => {
