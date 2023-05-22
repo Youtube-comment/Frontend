@@ -1,0 +1,15 @@
+.menu_bar{
+    padding: 29px;
+    width: 78vw;
+}
+
+.menu_container{
+    display: flex;
+    justify-content: left;  
+    text-align: center;
+}
+
+.menu_appname{
+    font-weight: bold;
+    font-size: large;
+}

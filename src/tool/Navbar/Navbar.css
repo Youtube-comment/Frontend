@@ -1,0 +1,73 @@
+.Navbar_profile {    
+    width: 250px;
+    height: 100vh;
+    position: fixed;
+    float: left;
+    background: #3E3E3E;
+  }
+  
+.Navbar_subprofile{
+    display: flex;
+    justify-content: space-evenly;
+    text-align: center;
+    color: white;
+}
+.Navbar_subscribe{
+    border-bottom: 2px solid rgb(158, 157, 157);
+}
+  
+.Navbar_profile_item{
+    text-align: center;
+    padding-top : 30px;
+    color: white;
+}
+.Navbar_menu{
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+}
+
+.Navbar_menu_main{
+    padding: 20px 0;
+}
+
+.Navbar_menu_main_item{
+    font-size: large;
+    text-Decoration: none;
+    color: white;
+}
+
+.Navbar_menu_videos{
+    padding: 20px 0;
+}
+.active{
+    background: #333333;
+}
+
+.Navbar_menu_videos_item{
+    font-size:large;
+    text-Decoration: none;
+    color: white;
+}
+
+.Navbar_menu_profile{
+    padding: 20px 0;
+}
+.Navbar_menu_profile_item{
+    font-size:large;
+    text-Decoration: none;
+    color: white;
+}
+
+.Navbar_menu_logout{
+    padding: 20px 0;
+}
+
+.Navbar_menu_logout_item{
+    font-size:large;
+    text-Decoration: none;
+    color: white;
+}
+  

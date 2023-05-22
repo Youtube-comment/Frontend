@@ -1,0 +1,108 @@
+.videos_video_item {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  text-align: center;
+  margin: 0 auto;
+}
+
+.videos_video_item > div {
+  flex-basis: calc(33.333% - 20px);
+  margin-bottom: 20px;
+  padding: 10px;
+}
+
+.videos_video_list {
+  background: skyblue;
+  width: 326px;
+  height: 184px;
+  margin: 0 auto;
+  border-radius: 5%;
+}
+.videos_submenu {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.videos_sort {
+  display: flex;
+  flex-direction: row;
+  justify-content: left;
+  padding: 15px 10px;
+}
+
+.videos_newbtn {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  height: 32px;
+  padding: 0 10px;
+  gap: 15px;
+  background: #f2f2f2;
+  border: none;
+  border-radius: 8px;
+  margin-right: 10px;
+}
+
+.videos_popularbtn {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  height: 32px;
+  padding: 0 10px;
+  gap: 15px;
+  background: #f2f2f2;
+  border: none;
+  border-radius: 8px;
+}
+
+.videos_search {
+  display: flex;
+  flex-direction: row;
+  justify-content: right;
+  align-items: center;
+  padding: 15px 80px 15px 0;
+}
+
+.videos_search_text {
+  border: 1px solid #bbb;
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-size: 14px;
+  margin-right: 10px;
+}
+
+.videos_search_btn {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  height: 32px;
+  padding: 0 10px;
+  gap: 15px;
+  background: #ffffff;
+  border: none;
+  border-radius: 8px;
+}
+
+.videos_submenu button:hover {
+  background-color: #ccc; /* 배경색 바꾸기 */
+  color: #fff; /* 글자색 바꾸기 */
+  cursor: pointer; /* 커서 모양 변경 */
+}
+
+.chagebg {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  height: 32px;
+  padding: 0 10px;
+  gap: 15px;
+  background: gray;
+  border: none;
+  border-radius: 8px;
+}

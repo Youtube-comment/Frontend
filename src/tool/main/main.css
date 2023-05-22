@@ -1,0 +1,23 @@
+.main_Logo {
+    display: flex;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.main_item {
+    display:flex;
+    margin: 40px 0px;
+}
+.main_explanation {
+    min-width: 60vw;
+    min-height: 60vh;
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+    padding: 22px;
+    border: 1px solid #E8E8E8;
+    border-radius: 10px;
+    background: #FFFFFF;
+    text-align: left;
+  }
+  
