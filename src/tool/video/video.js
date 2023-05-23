@@ -6,6 +6,26 @@ import "./video.css";
 import axios from "axios";
 import { Button } from "bootstrap";
 
+
+// open api 불러오기 
+const { Configuration, OpenAIApi } = require("openai");
+const configuration = new Configuration({
+  apiKey: process.env.OPENAI_API_KEY,
+});
+
+// api 함수 
+async function apiCall() {
+
+  const openai = new OpenAIApi(configuration);
+
+  const completion = await openai.createCompletion({
+    model: "text-davinci-003",
+    //prompt 에 댓글만 담아주면 된다.
+    prompt: "Hello world",
+  });
+  console.log(completion.data.choices[0].text);
+}
+
 function Video(props) {
   let { id } = useParams();
   const [userComment, setUser] = useState([]);
@@ -146,6 +166,12 @@ function Video(props) {
             <div className="input-container">
               <input type="text" required placeholder=" " />
               <label>댓글추가..</label>
+              {/* api 테스트 버튼 */}
+              <button onClick={() => {
+                apiCall()
+              }}>
+                댓글 달기
+              </button>
               <span className="spantest"></span>
               <button
                 onClick={() => {
