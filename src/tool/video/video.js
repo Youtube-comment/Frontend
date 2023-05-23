@@ -5,6 +5,28 @@ import { cookie, getCookie } from "../util/Cookie";
 import "./video.css";
 import axios from "axios";
 import { Button } from "bootstrap";
+import { useSelector } from "react-redux"
+
+
+// open api 불러오기 
+const { Configuration, OpenAIApi } = require("openai");
+const configuration = new Configuration({
+  apiKey: process.env.OPENAI_API_KEY,
+});
+
+
+// api 함수 
+async function apiCall() {
+
+  const openai = new OpenAIApi(configuration);
+
+  const completion = await openai.createCompletion({
+    model: "text-davinci-003",
+    //prompt 에 댓글만 담아주면 된다.
+    prompt: "Hello world",
+  });
+  console.log(completion.data.choices[0].text);
+}
 
 function Video(props) {
   let { id } = useParams();
@@ -13,7 +35,7 @@ function Video(props) {
 
   useEffect(() => {
     getComments();
-  });
+  },[]);
   
   const getComments = async () => {
     try {
@@ -57,6 +79,9 @@ function Video(props) {
     },
   ]);
 
+  let state = useSelector((state) => { return state } )
+  console.log(state);
+
   return (
     <div className="video">
       <div className="video_area">
@@ -64,7 +89,7 @@ function Video(props) {
           <div className="video_main">
             <div className="video_clip"></div>
             <p className="video_name">
-              유행 따위 없는 가장 먼저 사야하는 여름옷
+              {state.video_title.payload[0].title}
             </p>
           </div>
           <div className="video_addCmt">
@@ -79,6 +104,12 @@ function Video(props) {
             <div className="input-container">
               <input type="text" required placeholder=" " />
               <label>댓글추가..</label>
+              {/* api 테스트 버튼 */}
+              <button onClick={() => {
+                apiCall()
+              }}>
+                댓글 달기
+              </button>
               <span className="spantest"></span>
             </div>
           </div>
