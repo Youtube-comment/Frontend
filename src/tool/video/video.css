@@ -124,6 +124,10 @@ button {
   border: none;
   background: none;
 }
+
+.video_addbtn {
+  display: inline-block;
+}
 input::placeholder {
   color: #aaaaaa;
 }

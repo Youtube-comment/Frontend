@@ -15,6 +15,7 @@ function Video(props) {
     getComments();
   });
   const getComments = async () => {
+    //댓글들불러오기
     try {
       const response = await axios.post(
         `${process.env.REACT_APP_URL}/api/get-comment-list/`,
@@ -28,8 +29,61 @@ function Video(props) {
       const commentdatas = response.data.items.map(
         (item) => item.snippet.topLevelComment
       );
-      // console.log(response.data.items);
       setUser(commentdatas);
+    } catch (error) {}
+  };
+
+  const addComment = async () => {
+    // 답글 달기
+    try {
+      const comment_response = await axios.post(
+        `${process.env.REACT_APP_URL}/api/post-comment-insert/`,
+        {
+          parentId: "UgxFdAUQgwkzcESs_LF4AaABAg",
+          textOriginal: "우우우",
+        },
+        {
+          headers: { Authorization: token },
+        }
+      );
+      console.log(comment_response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const removeComment = async () => {
+    //답글삭제
+    try {
+      const remove_response = await axios.post(
+        `${process.env.REACT_APP_URL}/api/post-comment-delete/`,
+        {
+          comment_id: "UgxFdAUQgwkzcESs_LF4AaABAg.9pok6jjEWU29q0nBbcOSHh",
+        },
+        {
+          headers: { Authorization: token },
+        }
+      );
+      console.log("삭제완료");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const getRecomment = async () => {
+    //답글들 불러오기
+
+    try {
+      const get_Recomment = await axios.post(
+        `${process.env.REACT_APP_URL}/api/get-recomment-list/`,
+        {
+          parentId: "UgxFdAUQgwkzcESs_LF4AaABAg",
+        },
+        {
+          headers: { Authorization: token },
+        }
+      );
+      console.log(get_Recomment.data);
     } catch (error) {
       console.log(error);
     }
@@ -65,6 +119,20 @@ function Video(props) {
             <p className="video_name">
               유행 따위 없는 가장 먼저 사야하는 여름옷
             </p>
+            <button
+              onClick={() => {
+                removeComment();
+              }}
+            >
+              답글삭제 test
+            </button>
+            <button
+              onClick={() => {
+                getRecomment();
+              }}
+            >
+              답글console 찍기
+            </button>
           </div>
           <div className="video_addCmt">
             <div className="avatar">
@@ -79,6 +147,14 @@ function Video(props) {
               <input type="text" required placeholder=" " />
               <label>댓글추가..</label>
               <span className="spantest"></span>
+              <button
+                onClick={() => {
+                  addComment();
+                }}
+                className="video_addbtn"
+              >
+                댓글
+              </button>
             </div>
           </div>
           <Video_addcomment comment={userComment} />

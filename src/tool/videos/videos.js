@@ -24,9 +24,7 @@ function Videos(props) {
         console.log(result.data.items);
         setVideo(videodatas);
       })
-      .catch((result) => {
-        console.log(result);
-      });
+      .catch((result) => {});
   }, [token]);
   console.log(video);
 
