@@ -112,116 +112,34 @@ function Video(props) {
     }
   };
 
-  const [playlist, setPlaylist] = useState([
-    {
-      img: "/img/tera.png",
-      title: "여름옷 추천1",
-      duration: "한 시간 전",
-      조회수: "14만회",
-    },
-    {
-      img: "/img/tera.png",
-      title: "여름옷 추천2",
-      duration: "일주일 전",
-      조회수: "29만회",
-    },
-    {
-      img: "/img/tera.png",
-      title: "여름옷 추천3",
-      duration: "한달 전",
-      조회수: "39만회",
-    },
-  ]);
-
   let state = useSelector((state) => { return state } )
   console.log(state);
+  console.log(userComment);
 
   return (
-    <div className="video">
-      <div className="video_area">
-        <div className="video1">
-          <div className="video_main">
-            <div className="video_clip"></div>
-            <p className="video_name">
-              {state.video_title.payload[0].title}
-            </p>
-            <button
-              onClick={() => {
-                removeComment();
-              }}
-            >
-              답글삭제 test
-            </button>
-            <button
-              onClick={() => {
-                getRecomment();
-              }}
-            >
-              답글console 찍기
-            </button>
-          </div>
-          <div className="video_addCmt">
-            <div className="avatar">
-              <img
-                src={process.env.PUBLIC_URL + "/img/tera.png"}
-                width="50px"
-                height="50px"
-              />
-            </div>
-
-            <div className="input-container">
-              <input type="text" required placeholder=" " />
-              <label>댓글추가..</label>
-              {/* api 테스트 버튼 */}
-              <button onClick={() => {
-                apiCall()
-              }}>
-                댓글 달기
-              </button>
-              <span className="spantest"></span>
-              <button
-                onClick={() => {
-                  addComment();
-                }}
-                className="video_addbtn"
-              >
-                댓글
-              </button>
-            </div>
-          </div>
-          <Video_addcomment comment={userComment} />
+    <div className="video_page">
+      <div className="video_containor">
+        <div className="video_title">
+        <h3>{ state.video_title.payload[0].title }</h3>
         </div>
-        <Video_side playlist={playlist} />
+        <div className="video_table">
+          {
+            userComment.map((a,i)=>{
+              return(
+                <div className="video_comment_list">
+                  <p>{ userComment[i].snippet.authorDisplayName }</p>
+                  <p>{ userComment[i].snippet.textDisplay }</p>
+                </div>
+              );
+            })
+          }
+        </div>
       </div>
     </div>
+    
   );
 }
 
-function Video_side(props) {
-  return (
-    <div className="video2">
-      {props.playlist.map((a, i) => (
-        <div className="side_area" key={i}>
-          <div className="side_img">
-            {" "}
-            <img
-              src={process.env.PUBLIC_URL + "/img/tera.png"}
-              width="100px"
-              height="100px"
-            />
-          </div>
-          <div className="side_content">
-            <div className="side_title">{props.playlist[i].title}</div>
-            <div className="side_views">
-              조회수 : {props.playlist[i].조회수}
-            </div>
-            <div className="side_time">{props.playlist[i].duration}</div>
-          </div>
-        </div>
-      ))}
-    </div>
-  );
-}
 function calculateElapsedTime(updatedAt) {
   const ONE_MINUTE_IN_MILLISECONDS = 60 * 1000; // 1분을 밀리초로 계산
   const ONE_HOUR_IN_MILLISECONDS = 60 * ONE_MINUTE_IN_MILLISECONDS; // 1시간을 밀리초로 계산
@@ -253,85 +171,5 @@ function calculateElapsedTime(updatedAt) {
     return `${elapsedMonths}개월 전`;
   }
 }
-function Video_addcomment(props) {
-  let [답글, set답글] = useState(Array(props.comment.length).fill(0));
 
-  return (
-    <div className="video_comment">
-      {props.comment.map((a, i) => (
-        <div key={i}>
-          <div className="video_sub">
-            <div className="video_cmtIMG">
-              <img
-                src={process.env.PUBLIC_URL + "/img/tera.png"}
-                width="50px"
-                height="50px"
-              />
-            </div>
-            <div className="name_time_cmt">
-              <div className="name_time">
-                <div className="video_cmtNAME">
-                  {props.comment[i].snippet.authorDisplayName}
-                </div>
-                <div className="video_cmtTIME">
-                  {calculateElapsedTime(props.comment[i].snippet.publishedAt)}
-                </div>
-              </div>
-
-              <div className="video_cmt">
-                {props.comment[i].snippet.textDisplay}
-              </div>
-              <div className="video_response">
-                <div className="video_like">
-                  <span>👍</span>
-                  <div className="video_setLike">
-                    {props.comment[i].snippet.likeCount}
-                  </div>
-                </div>
-                <div className="video_like">
-                  <span>👎</span>
-                </div>
-                <span
-                  onClick={() => {
-                    let copy = [...답글];
-                    copy[i] = 1;
-                    set답글(copy);
-                  }}
-                  className="video_toadd"
-                >
-                  답글
-                </span>
-                {답글[i] === 1 ? (
-                  <Add 답글={답글} set답글={set답글} i={i} />
-                ) : null}
-              </div>
-            </div>
-          </div>
-        </div>
-      ))}
-    </div>
-  );
-}
-
-function Add(props) {
-  return (
-    <form className="input-container">
-      <input type="text" placeholder="답글추가..." />
-      <span className="spantest"></span>
-      <div className="input-container-add">
-        <button
-          onClick={() => {
-            let copy = [...props.답글];
-            copy[props.i] = 0;
-            props.set답글(copy);
-          }}
-        >
-          취소
-        </button>
-        <button>GPT</button>
-        <button>답글</button>
-      </div>
-    </form>
-  );
-}
 export default Video;

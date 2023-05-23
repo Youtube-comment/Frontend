@@ -1,172 +1,20 @@
-.video {
-  margin-top: 30px;
-  width: 90%;
-}
-.video_area {
+.video_title{
   display: flex;
+  flex-direction: row;
+  justify-content: left;
+  padding-left: 30px;
 }
-.video1 {
-  width: 60%;
-  margin-right: 65px;
-}
-
-.video_clip {
-  border: 2px solid grey;
-  background-color: rgb(147, 147, 147);
-  display: flex;
-
-  height: 400px;
-}
-.video_side {
-  width: 25%;
-  height: 400px;
-  margin-left: auto;
-  border: 2px solid grey;
-  background-color: aqua;
-}
-.video_name {
-  font-size: larger;
-  font-weight: bold;
-
-  text-align: left;
-}
-
-.video_addCmt {
-  display: flex;
-  align-items: center; /* flex-start 대신 center로 변경하여 아이템들 정렬 */
-  font-family: "Roboto", "Noto", sans-serif;
-  margin-bottom: 70px;
-}
-
-.avatar {
-  margin-right: 15px; /* 아바타 간격 조절 */
-  width: 40px; /* 아바타 이미지 크기 조절 */
-  height: 40px;
-}
-
-.video_commentMain {
-  width: 70%;
-  margin-left: 60px;
-  border: 2px solid black;
-}
-.video_comment {
-  text-align: left;
-}
-.video_sub {
-  display: flex;
-  margin-bottom: 30px;
-}
-.video_cmtIMG {
-  margin-right: 10px;
-}
-.name_time {
-  display: flex;
-}
-.video_cmtNAME {
-  margin-right: 5px;
-}
-.video_cmtTIME {
-  color: grey;
-  font-size: small;
-}
-.video2 {
-  width: 30%;
-}
-.side_area {
-  display: flex;
-  margin-bottom: 30px;
-  border: 1px solid rgba(255, 255, 255, 0.843);
-  padding: 5px;
-}
-.side_img {
-  margin-right: 20px;
-}
-.side_content {
+.video_table > div {
+  box-sizing: border-box;
+  background: blanchedalmond;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  width: 82.9vw;
   text-align: left;
-}
-.video_response {
-  display: flex;
-}
-.video_like {
-  display: flex;
-  margin-right: 20px;
-}
-.video_dislike {
-  display: flex;
-}
 
-.input-container {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 2px;
-  align-items: center;
 }
-
-input {
-  font-size: 15px;
-  color: #222222;
-  width: 300px;
-  border: none;
-  border-bottom: solid #aaaaaa 1px;
-  padding-bottom: 5px;
-  padding-left: 10px;
-  position: relative;
-  background: none;
-  z-index: 5;
-}
-button {
-  width: 60px;
-  display: inline-block;
-
-  border: none;
-  background: none;
-}
-
-.video_addbtn {
-  display: inline-block;
-}
-input::placeholder {
-  color: #aaaaaa;
-}
-input:focus {
-  outline: none;
-}
-
-.spantest {
-  /* right로만 바꿔주면 오 - 왼 */
-  background-color: #666;
-  width: 0;
-  height: 2px;
-  border-radius: 2px;
-  margin-top: -3px;
-  transition: 0.5s;
-}
-
-label {
-  position: absolute;
-  color: #aaa;
-  font-size: 20px;
-  transition: all 0.2s;
-}
-
-input:focus ~ label,
-input:valid ~ label {
-  font-size: 16px;
-  top: 560px;
-  color: #666;
-  font-weight: bold;
-}
-
-input:focus ~ .spantest,
-input:valid ~ .spantest {
-  width: 100%;
-  background: #666;
-}
-.input-container-add {
-  display: flex;
-  align-items: center;
-  padding-left: 60%;
+.video_comment_list{
+  padding-left: 20px;
+  text-align: left;
+  border-bottom: 1px solid gray;
 }
