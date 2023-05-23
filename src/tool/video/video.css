@@ -31,7 +31,7 @@ button {
   background: none;
 }
 
-.popup {
+.video_popup {
   position: fixed;
   z-index: 1;
   left: 0;
@@ -43,7 +43,7 @@ button {
   padding: 100px 400px;
 }
 
-.popup-content {
+.video_popup-content {
   background-color: white;
   padding: 10px 45px 40px 33px;
   border: 1px solid #888;
@@ -53,15 +53,34 @@ button {
   max-height: 500px;
   overflow: auto;
 }
-.close {
+.video_close {
   color: #aaa;
   float: right;
   font-size: 28px;
   font-weight: bold;
 }
-.close:hover,
-.close:focus {
+.video_close:hover,
+.video_close:focus {
   color: black;
   text-decoration: none;
   cursor: pointer;
+}
+.video_title {
+  display: flex;
+  flex-direction: row;
+  justify-content: left;
+  padding-left: 30px;
+}
+.video_table > div {
+  box-sizing: border-box;
+  background: blanchedalmond;
+  display: flex;
+  flex-direction: column;
+  width: 82.9vw;
+  text-align: left;
+}
+.video_comment_list {
+  padding-left: 20px;
+  text-align: left;
+  border-bottom: 1px solid gray;
 }

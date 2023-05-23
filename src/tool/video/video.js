@@ -135,20 +135,35 @@ function Video(props) {
 
   return (
     <div className="video">
-      {userComment.map((a, i) => (
-        <p key={i} onClick={() => handleCommentClick(a)}>
-          {a.snippet.textOriginal}
-        </p>
-      ))}
+      <div className="video_page">
+        <div className="video_containor">
+          <div className="video_table">
+            {userComment.map((a, i) => {
+              return (
+                <div
+                  key={i}
+                  onClick={() => handleCommentClick(a)}
+                  className="video_comment_list"
+                >
+                  <p>{userComment[i].snippet.authorDisplayName}</p>
+                  <p>{userComment[i].snippet.textDisplay}</p>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </div>
 
       {isModalOpen && (
         <div>
-          <div id="myModal" className="popup">
-            <div className="popup-content">
+          <div id="myModal" className="video_popup">
+            <div className="video_popup-content">
               <span
-                className="close"
+                className="video_close"
                 onClick={() => {
                   handleCloseModal();
+                  let box = [];
+                  setModalContent([...box]);
                 }}
               >
                 &times;
