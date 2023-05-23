@@ -5,10 +5,14 @@ import { useEffect, useState } from "react";
 import { cookie, getCookie } from "../util/Cookie";
 import "./videos.css";
 import { Route, Routes, Link, useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux"
+import { changeName } from "../../store";
 
 function Videos(props) {
   let [video, setVideo] = useState([]);
   let [btnbg, setBtnbg] = useState(["", ""]);
+  let state = useSelector((state) => { return state } )
+  let dispatch = useDispatch();
 
   const token = getCookie("access_token");
 
@@ -23,6 +27,7 @@ function Videos(props) {
         const videodatas = result.data.items.map((item) => item.snippet);
         console.log(result.data.items);
         setVideo(videodatas);
+        dispatch(changeName(videodatas));
       })
       .catch((result) => {});
   }, [token]);

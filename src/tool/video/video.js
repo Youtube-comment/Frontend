@@ -5,6 +5,7 @@ import { cookie, getCookie } from "../util/Cookie";
 import "./video.css";
 import axios from "axios";
 import { Button } from "bootstrap";
+import { useSelector } from "react-redux";
 
 // open api 불러오기
 const { Configuration, OpenAIApi } = require("openai");
@@ -13,6 +14,7 @@ const configuration = new Configuration({
 });
 
 // api 함수
+
 async function apiCall() {
   const openai = new OpenAIApi(configuration);
 
@@ -28,10 +30,13 @@ function Video(props) {
   let { id } = useParams();
   const [userComment, setUser] = useState([]);
   const token = getCookie("access_token");
+  const [modalTitle, setModalTitle] = useState(""); // modal제목
+  const [modalContent, setModalContent] = useState([]); // modal
 
   useEffect(() => {
     getComments();
-  });
+  }, []);
+  console.log(userComment);
   const getComments = async () => {
     //댓글들불러오기
     try {
@@ -50,15 +55,14 @@ function Video(props) {
       setUser(commentdatas);
     } catch (error) {}
   };
-
   const addComment = async () => {
     // 답글 달기
     try {
       const comment_response = await axios.post(
         `${process.env.REACT_APP_URL}/api/post-comment-insert/`,
         {
-          parentId: "UgxFdAUQgwkzcESs_LF4AaABAg",
-          textOriginal: "우우우",
+          parentId: "댓글id",
+          textOriginal: "쓸말 들",
         },
         {
           headers: { Authorization: token },
@@ -76,7 +80,7 @@ function Video(props) {
       const remove_response = await axios.post(
         `${process.env.REACT_APP_URL}/api/post-comment-delete/`,
         {
-          comment_id: "UgxFdAUQgwkzcESs_LF4AaABAg.9pok6jjEWU29q0nBbcOSHh",
+          comment_id: "답글id",
         },
         {
           headers: { Authorization: token },
@@ -88,126 +92,95 @@ function Video(props) {
     }
   };
 
-  const getRecomment = async () => {
-    //답글들 불러오기
+  const handleCommentClick = async (comment) => {
+    // 댓글 클릭 이벤트 처리
+    setModalTitle(comment);
+    setIsModalOpen(true);
+    await getRecomment(comment.id);
+  };
 
+  useEffect(() => {
+    getRecomment();
+  }, [modalTitle]);
+  const getRecomment = async (parentId) => {
+    // 답글들 불러오기
     try {
-      const get_Recomment = await axios.post(
+      const get_Recommend = await axios.post(
         `${process.env.REACT_APP_URL}/api/get-recomment-list/`,
         {
-          parentId: "UgxFdAUQgwkzcESs_LF4AaABAg",
+          parentId: parentId, //댓글 id
         },
         {
           headers: { Authorization: token },
         }
       );
-      console.log(get_Recomment.data);
+      const recommentdatas = get_Recommend.data.items.map(
+        (item) => item.snippet
+      );
+      setModalContent(recommentdatas);
     } catch (error) {
       console.log(error);
     }
   };
 
-  const [playlist, setPlaylist] = useState([
-    {
-      img: "/img/tera.png",
-      title: "여름옷 추천1",
-      duration: "한 시간 전",
-      조회수: "14만회",
-    },
-    {
-      img: "/img/tera.png",
-      title: "여름옷 추천2",
-      duration: "일주일 전",
-      조회수: "29만회",
-    },
-    {
-      img: "/img/tera.png",
-      title: "여름옷 추천3",
-      duration: "한달 전",
-      조회수: "39만회",
-    },
-  ]);
+  let state = useSelector((state) => {
+    return state;
+  });
+
+  const [isModalOpen, setIsModalOpen] = useState(false); //modal창 띄우기
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
 
   return (
     <div className="video">
-      <div className="video_area">
-        <div className="video1">
-          <div className="video_main">
-            <div className="video_clip"></div>
-            <p className="video_name">
-              유행 따위 없는 가장 먼저 사야하는 여름옷
-            </p>
-            <button
-              onClick={() => {
-                removeComment();
-              }}
-            >
-              답글삭제 test
-            </button>
-            <button
-              onClick={() => {
-                getRecomment();
-              }}
-            >
-              답글console 찍기
-            </button>
-          </div>
-          <div className="video_addCmt">
-            <div className="avatar">
-              <img
-                src={process.env.PUBLIC_URL + "/img/tera.png"}
-                width="50px"
-                height="50px"
-              />
-            </div>
-
-            <div className="input-container">
-              <input type="text" required placeholder=" " />
-              <label>댓글추가..</label>
-              <span className="spantest"></span>
-              <button
-                onClick={() => {
-                  addComment();
-                }}
-                className="video_addbtn"
-              >
-                댓글
-              </button>
-            </div>
-          </div>
-          <Video_addcomment comment={userComment} />
-        </div>
-        <Video_side playlist={playlist} />
-      </div>
-    </div>
-  );
-}
-
-function Video_side(props) {
-  return (
-    <div className="video2">
-      {props.playlist.map((a, i) => (
-        <div className="side_area" key={i}>
-          <div className="side_img">
-            {" "}
-            <img
-              src={process.env.PUBLIC_URL + "/img/tera.png"}
-              width="100px"
-              height="100px"
-            />
-          </div>
-          <div className="side_content">
-            <div className="side_title">{props.playlist[i].title}</div>
-            <div className="side_views">
-              조회수 : {props.playlist[i].조회수}
-            </div>
-            <div className="side_time">{props.playlist[i].duration}</div>
-          </div>
-        </div>
+      {userComment.map((a, i) => (
+        <p key={i} onClick={() => handleCommentClick(a)}>
+          {a.snippet.textOriginal}
+        </p>
       ))}
+
+      {isModalOpen && (
+        <div>
+          <div id="myModal" className="popup">
+            <div className="popup-content">
+              <span
+                className="close"
+                onClick={() => {
+                  handleCloseModal();
+                }}
+              >
+                &times;
+              </span>
+              <h2 className="video_modal_title">
+                {modalTitle.snippet.textOriginal}
+              </h2>
+              <div className="video_modal_title_sub">
+                <span className="video_modal_like">
+                  👍 {modalTitle.snippet.likeCount}
+                </span>
+                <span>
+                  {calculateElapsedTime(modalTitle.snippet.updatedAt)}
+                </span>
+              </div>
+
+              {modalContent.map((a, i) => (
+                <div className="video_modal_content" key={i}>
+                  <div className="video_modal_text">
+                    {modalContent[i].textOriginal}
+                  </div>
+                  <span>{calculateElapsedTime(modalContent[i].updatedAt)}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
+
 function calculateElapsedTime(updatedAt) {
   const ONE_MINUTE_IN_MILLISECONDS = 60 * 1000; // 1분을 밀리초로 계산
   const ONE_HOUR_IN_MILLISECONDS = 60 * ONE_MINUTE_IN_MILLISECONDS; // 1시간을 밀리초로 계산
@@ -239,85 +212,5 @@ function calculateElapsedTime(updatedAt) {
     return `${elapsedMonths}개월 전`;
   }
 }
-function Video_addcomment(props) {
-  let [답글, set답글] = useState(Array(props.comment.length).fill(0));
 
-  return (
-    <div className="video_comment">
-      {props.comment.map((a, i) => (
-        <div key={i}>
-          <div className="video_sub">
-            <div className="video_cmtIMG">
-              <img
-                src={process.env.PUBLIC_URL + "/img/tera.png"}
-                width="50px"
-                height="50px"
-              />
-            </div>
-            <div className="name_time_cmt">
-              <div className="name_time">
-                <div className="video_cmtNAME">
-                  {props.comment[i].snippet.authorDisplayName}
-                </div>
-                <div className="video_cmtTIME">
-                  {calculateElapsedTime(props.comment[i].snippet.publishedAt)}
-                </div>
-              </div>
-
-              <div className="video_cmt">
-                {props.comment[i].snippet.textDisplay}
-              </div>
-              <div className="video_response">
-                <div className="video_like">
-                  <span>👍</span>
-                  <div className="video_setLike">
-                    {props.comment[i].snippet.likeCount}
-                  </div>
-                </div>
-                <div className="video_like">
-                  <span>👎</span>
-                </div>
-                <span
-                  onClick={() => {
-                    let copy = [...답글];
-                    copy[i] = 1;
-                    set답글(copy);
-                  }}
-                  className="video_toadd"
-                >
-                  답글
-                </span>
-                {답글[i] === 1 ? (
-                  <Add 답글={답글} set답글={set답글} i={i} />
-                ) : null}
-              </div>
-            </div>
-          </div>
-        </div>
-      ))}
-    </div>
-  );
-}
-
-function Add(props) {
-  return (
-    <form className="input-container">
-      <input type="text" placeholder="답글추가..." />
-      <span className="spantest"></span>
-      <div className="input-container-add">
-        <button
-          onClick={() => {
-            let copy = [...props.답글];
-            copy[props.i] = 0;
-            props.set답글(copy);
-          }}
-        >
-          취소
-        </button>
-        <button>GPT</button>
-        <button>답글</button>
-      </div>
-    </form>
-  );
-}
 export default Video;
