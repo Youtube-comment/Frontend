@@ -33,6 +33,9 @@ function Videos(props) {
   }, [token]);
   console.log(video);
 
+  // 로컬 스토리지에 title 저장하기
+  
+
   return (
     <div className="videos_page">
       <div className="videos_containor">
@@ -89,6 +92,7 @@ function Video_item(props) {
         <img
           onClick={() => {
             navigate(`/video/${props.video.resourceId.videoId}`);
+            localStorage.setItem("videoTitle", JSON.stringify(props.video.title));
           }}
           src={props.video.thumbnails.high.url}
           alt="thumbmail"

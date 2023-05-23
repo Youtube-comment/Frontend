@@ -115,12 +115,13 @@ function Video(props) {
   let state = useSelector((state) => { return state } )
   console.log(state);
   console.log(userComment);
+  const retrievedTitle = localStorage.getItem("videoTitle");
 
   return (
     <div className="video_page">
       <div className="video_containor">
         <div className="video_title">
-        <h3>{ state.video_title.payload[0].title }</h3>
+        <h3>{ retrievedTitle }</h3>
         </div>
         <div className="video_table">
           {
