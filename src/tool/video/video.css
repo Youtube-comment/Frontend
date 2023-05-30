@@ -10,13 +10,12 @@
 .video_modal_like {
   margin-right: 30px;
 }
-
-.video_modal_content {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding-left: 10%;
+.video_modal_form {
   margin-bottom: 30px;
+}
+.video_modal_content {
+  margin-bottom: 30px;
+  border: solid gray 1px;
 }
 
 .video_modal_content > span {

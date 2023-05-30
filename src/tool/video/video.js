@@ -32,11 +32,30 @@ function Video(props) {
   const token = getCookie("access_token");
   const [modalTitle, setModalTitle] = useState(""); // modal제목
   const [modalContent, setModalContent] = useState([]); // modal
+  const [isModalOpen, setIsModalOpen] = useState(false); //modal창 띄우기
+
+  const [recommentState, setRecommentState] = useState(
+    //댓글마다 state함수 써주고 대댓글창 가져오기
+    Array(modalContent.length).fill(false)
+  );
+
+  const handleRecommentClick = (index) => {
+    //대댓글쓰는 함수
+    const updatedRecommentState = [...recommentState];
+    updatedRecommentState[index] = !recommentState[index];
+    setRecommentState(updatedRecommentState);
+  };
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const [createComment, setCreateComment] = useState(""); // 대댓글 뭐라고 쓸지
+  const [createCommentId, setCreateCommentId] = useState(""); // 댓글의 id 가져오기
 
   useEffect(() => {
     getComments();
   }, []);
-  console.log(userComment);
+
   const getComments = async () => {
     //댓글들불러오기
     try {
@@ -61,8 +80,8 @@ function Video(props) {
       const comment_response = await axios.post(
         `${process.env.REACT_APP_URL}/api/post-comment-insert/`,
         {
-          parentId: "댓글id",
-          textOriginal: "쓸말 들",
+          parentId: createCommentId,
+          textOriginal: createComment,
         },
         {
           headers: { Authorization: token },
@@ -74,13 +93,13 @@ function Video(props) {
     }
   };
 
-  const removeComment = async () => {
+  const removeComment = async (removeId) => {
     //답글삭제
     try {
       const remove_response = await axios.post(
         `${process.env.REACT_APP_URL}/api/post-comment-delete/`,
         {
-          comment_id: "답글id",
+          comment_id: removeId,
         },
         {
           headers: { Authorization: token },
@@ -92,11 +111,12 @@ function Video(props) {
     }
   };
 
-  const handleCommentClick = async (comment) => {
-    // 댓글 클릭 이벤트 처리
+  const handleCommentClick = async (comment, index) => {
     setModalTitle(comment);
     setIsModalOpen(true);
+
     await getRecomment(comment.id);
+    handleRecommentClick(index);
   };
 
   useEffect(() => {
@@ -105,7 +125,7 @@ function Video(props) {
   const getRecomment = async (parentId) => {
     // 답글들 불러오기
     try {
-      const get_Recommend = await axios.post(
+      const get_Recomment = await axios.post(
         `${process.env.REACT_APP_URL}/api/get-recomment-list/`,
         {
           parentId: parentId, //댓글 id
@@ -114,10 +134,9 @@ function Video(props) {
           headers: { Authorization: token },
         }
       );
-      const recommentdatas = get_Recommend.data.items.map(
-        (item) => item.snippet
-      );
+      const recommentdatas = get_Recomment.data.items.map((item) => item);
       setModalContent(recommentdatas);
+      console.log(recommentdatas);
     } catch (error) {
       console.log(error);
     }
@@ -126,12 +145,6 @@ function Video(props) {
   let state = useSelector((state) => {
     return state;
   });
-
-  const [isModalOpen, setIsModalOpen] = useState(false); //modal창 띄우기
-
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
-  };
 
   return (
     <div className="video">
@@ -179,13 +192,54 @@ function Video(props) {
                   {calculateElapsedTime(modalTitle.snippet.updatedAt)}
                 </span>
               </div>
-
+              <div className="video_modal_form">
+                <input
+                  onChange={(e) => {
+                    setCreateComment(e.target.value);
+                    setCreateCommentId(modalTitle.id);
+                  }}
+                  placeholder="댓글추가.."
+                />
+                <button onClick={() => addComment()}>댓글</button>
+              </div>
               {modalContent.map((a, i) => (
                 <div className="video_modal_content" key={i}>
+                  <div>{modalContent[i].snippet.authorDisplayName}</div>
                   <div className="video_modal_text">
-                    {modalContent[i].textOriginal}
+                    {modalContent[i].snippet.textOriginal}
                   </div>
-                  <span>{calculateElapsedTime(modalContent[i].updatedAt)}</span>
+                  <span>
+                    {calculateElapsedTime(modalContent[i].snippet.updatedAt)}
+                  </span>
+                  <button
+                    onClick={() => {
+                      removeComment(modalContent[i].id);
+                    }}
+                  >
+                    삭제
+                  </button>
+                  {recommentState[i] ? ( // 대댓글쓰기
+                    <>
+                      <input
+                        onChange={(e) => {
+                          setCreateComment(
+                            "@" +
+                              modalContent[i].snippet.authorDisplayName +
+                              e.target.value
+                          );
+                          setCreateCommentId(modalTitle.id);
+                        }}
+                      ></input>
+                      <button onClick={() => handleRecommentClick(i)}>
+                        취소
+                      </button>
+                      <button onClick={() => addComment()}>답글</button>
+                    </>
+                  ) : (
+                    <button onClick={() => handleRecommentClick(i)}>
+                      답글
+                    </button>
+                  )}
                 </div>
               ))}
             </div>
