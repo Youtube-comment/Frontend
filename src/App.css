@@ -1,11 +1,22 @@
 .App {
   text-align: center;
+  display : flex;
+  flex-direction: row;
 }
 
 
 .App_menu{
   background: #FFFFFF;
-  margin-left: 250px;
+}
+
+.App_nav {
+  flex: 1.5;
+}
+
+.App_main {
+  flex: 8.5;
+  display: flex;
+  flex-direction: column;
 }
 
 .App_content{
@@ -13,9 +24,9 @@
   flex-direction: row;
   justify-content: center;
   text-align: center;
-  margin-left: 250px;
   background: #e4e4e4;
-  min-height: 87vh;
+  width: 100%;
+  height: 100%;
 }
 
 

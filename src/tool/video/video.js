@@ -1,23 +1,21 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, useParams } from "react-router-dom";
-import { Cookies } from "react-cookie";
+
 import { cookie, getCookie } from "../util/Cookie";
 import "./video.css";
 import axios from "axios";
 import { Button } from "bootstrap";
-import { useSelector } from "react-redux"
+import { useSelector } from "react-redux";
 
-
-// open api 불러오기 
+// open api 불러오기
 const { Configuration, OpenAIApi } = require("openai");
 const configuration = new Configuration({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
+// api 함수
 
-// api 함수 
 async function apiCall() {
-
   const openai = new OpenAIApi(configuration);
 
   const completion = await openai.createCompletion({
@@ -32,11 +30,13 @@ function Video(props) {
   let { id } = useParams();
   const [userComment, setUser] = useState([]);
   const token = getCookie("access_token");
+  const [modalTitle, setModalTitle] = useState(""); // modal제목
+  const [modalContent, setModalContent] = useState([]); // modal
 
   useEffect(() => {
     getComments();
-  },[]);
-  
+  }, []);
+  console.log(userComment);
   const getComments = async () => {
     //댓글들불러오기
     try {
@@ -55,15 +55,14 @@ function Video(props) {
       setUser(commentdatas);
     } catch (error) {}
   };
-
   const addComment = async () => {
     // 답글 달기
     try {
       const comment_response = await axios.post(
         `${process.env.REACT_APP_URL}/api/post-comment-insert/`,
         {
-          parentId: "UgxFdAUQgwkzcESs_LF4AaABAg",
-          textOriginal: "우우우",
+          parentId: "댓글id",
+          textOriginal: "쓸말 들",
         },
         {
           headers: { Authorization: token },
@@ -81,7 +80,7 @@ function Video(props) {
       const remove_response = await axios.post(
         `${process.env.REACT_APP_URL}/api/post-comment-delete/`,
         {
-          comment_id: "UgxFdAUQgwkzcESs_LF4AaABAg.9pok6jjEWU29q0nBbcOSHh",
+          comment_id: "답글id",
         },
         {
           headers: { Authorization: token },
@@ -93,23 +92,41 @@ function Video(props) {
     }
   };
 
-  const getRecomment = async () => {
-    //답글들 불러오기
+  const handleCommentClick = async (comment) => {
+    // 댓글 클릭 이벤트 처리
+    setModalTitle(comment);
+    setIsModalOpen(true);
+    await getRecomment(comment.id);
+  };
 
+  useEffect(() => {
+    getRecomment();
+  }, [modalTitle]);
+  const getRecomment = async (parentId) => {
+    // 답글들 불러오기
     try {
-      const get_Recomment = await axios.post(
+      const get_Recommend = await axios.post(
         `${process.env.REACT_APP_URL}/api/get-recomment-list/`,
         {
-          parentId: "UgxFdAUQgwkzcESs_LF4AaABAg",
+          parentId: parentId, //댓글 id
         },
         {
           headers: { Authorization: token },
         }
       );
-      console.log(get_Recomment.data);
+      const recommentdatas = get_Recommend.data.items.map(
+        (item) => item.snippet
+      );
+      setModalContent(recommentdatas);
     } catch (error) {
       console.log(error);
     }
+  };
+
+  const [isModalOpen, setIsModalOpen] = useState(false); //modal창 띄우기
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
   };
 
   let state = useSelector((state) => { return state } )
@@ -121,23 +138,63 @@ function Video(props) {
     <div className="video_page">
       <div className="video_containor">
         <div className="video_title">
-        <h3>{ retrievedTitle }</h3>
+          <h3>{ retrievedTitle }</h3>
         </div>
-        <div className="video_table">
-          {
-            userComment.map((a,i)=>{
-              return(
-                <div className="video_comment_list">
-                  <p>{ userComment[i].snippet.authorDisplayName }</p>
-                  <p>{ userComment[i].snippet.textDisplay }</p>
+        <div>
+        {userComment.map((a, i) => {
+              return (
+                <div
+                  key={i}
+                  onClick={() => handleCommentClick(a)}
+                  className="video_comment_list"
+                >
+                  <p>{userComment[i].snippet.authorDisplayName}</p>
+                  <p>{userComment[i].snippet.textDisplay}</p>
                 </div>
               );
-            })
-          }
+            })}
         </div>
       </div>
+
+      {isModalOpen && (
+        <div>
+          <div id="myModal" className="video_popup">
+            <div className="video_popup-content">
+              <span
+                className="video_close"
+                onClick={() => {
+                  handleCloseModal();
+                  let box = [];
+                  setModalContent([...box]);
+                }}
+              >
+                &times;
+              </span>
+              <h2 className="video_modal_title">
+                {modalTitle.snippet.textOriginal}
+              </h2>
+              <div className="video_modal_title_sub">
+                <span className="video_modal_like">
+                  👍 {modalTitle.snippet.likeCount}
+                </span>
+                <span>
+                  {calculateElapsedTime(modalTitle.snippet.updatedAt)}
+                </span>
+              </div>
+
+              {modalContent.map((a, i) => (
+                <div className="video_modal_content" key={i}>
+                  <div className="video_modal_text">
+                    {modalContent[i].textOriginal}
+                  </div>
+                  <span>{calculateElapsedTime(modalContent[i].updatedAt)}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
-    
   );
 }
 

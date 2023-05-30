@@ -19,19 +19,22 @@ function App() {
   return (
     <div className="App">
       <GoogleOAuthProvider clientId={process.env.REACT_APP_CLIENT_ID}>
-        <Navbar />
-        <div className="App_menu">
-          <Menu />
+        <div className="App_nav">
+          <Navbar />
+        </div>
+        <div className="App_main">
+          <Menu /> 
+          <div className="App_content">
+            <Routes>
+              <Route path="video/:id" element={<Video token={token} />} />
+              <Route path="/" element={<Main />} />
+              <Route path="/videos" element={<Videos token={token} />} />
+              <Route path="/list" element={<List />} />
+            </Routes>
+          </div>
         </div>
 
-        <div className="App_content">
-          <Routes>
-            <Route path="video/:id" element={<Video token={token} />} />
-            <Route path="/" element={<Main />} />
-            <Route path="/videos" element={<Videos token={token} />} />
-            <Route path="/list" element={<List />} />
-          </Routes>
-        </div>
+       
       </GoogleOAuthProvider>
     </div>
   );

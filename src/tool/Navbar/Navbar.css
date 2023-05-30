@@ -1,7 +1,6 @@
-.Navbar_profile {    
-    width: 250px;
+.Navbar_profile {
     height: 100vh;
-    position: fixed;
+    position: sticky;
     float: left;
     background: #3E3E3E;
   }
