@@ -35,17 +35,6 @@ function Video(props) {
   const [isModalOpen, setIsModalOpen] = useState(false); //modal창 띄우기
   const [selectedCommentIndex, setSelectedCommentIndex] = useState();
 
-  const [recommentState, setRecommentState] = useState(
-    //댓글마다 state함수 써주고 대댓글창 가져오기
-    Array(modalContent.length).fill(false)
-  );
-
-  const handleRecommentClick = (index) => {
-    //대댓글쓰는 함수
-    const updatedRecommentState = [...recommentState];
-    updatedRecommentState[index] = !recommentState[index];
-    setRecommentState(updatedRecommentState);
-  };
   const handleCloseModal = () => {
     setIsModalOpen(false);
   };
@@ -88,7 +77,6 @@ function Video(props) {
           headers: { Authorization: token },
         }
       );
-      console.log(comment_response.data);
     } catch (error) {
       console.log(error);
     }
@@ -117,7 +105,6 @@ function Video(props) {
     setIsModalOpen(true);
     setSelectedCommentIndex(index);
     await getRecomment(comment.id);
-    handleRecommentClick(index);
   };
 
   useEffect(() => {
@@ -137,38 +124,50 @@ function Video(props) {
       );
       const recommentdatas = get_Recomment.data.items.map((item) => item);
       setModalContent(recommentdatas);
-      console.log(recommentdatas);
     } catch (error) {
       console.log(error);
     }
   };
 
-  let state = useSelector((state) => { return state } )
-  console.log(state);
-  console.log(userComment);
+  let state = useSelector((state) => {
+    return state;
+  });
   const retrievedTitle = localStorage.getItem("videoTitle");
 
   return (
     <div className="video_page">
       <div className="video_containor">
         <div className="video_title">
-          <h3>{ retrievedTitle }</h3>
+          <h3>{retrievedTitle}</h3>
         </div>
         <div>
-        {userComment.map((a, i) => {
-              return (
-                <div
-                  key={i}
-                  onClick={() => handleCommentClick(a , i)}
-                  className="video_comment_list"
-                >
-                  <p className="video_comment_user">{userComment[i].snippet.authorDisplayName}</p>
-                  <p className="video_comment_content">{userComment[i].snippet.textDisplay}</p>
-                  {isModalOpen && i == selectedCommentIndex &&(
-                    <div>
-                      <div id="myModal" className="video_popup">
-                        <div className="video_popup-content">
-                          <span
+          {userComment.map((a, i) => {
+            return (
+              <div
+                key={i}
+                onClick={() => handleCommentClick(a, i)}
+                className="video_comment_list"
+              >
+                <h2 className="video_comment_user">
+                  {userComment[i].snippet.authorDisplayName}
+                </h2>
+                <div className="video_comment_block">
+                  <h3 className="video_comment_content">
+                    {userComment[i].snippet.textDisplay}
+                  </h3>
+                  <p className="video_comment_like">
+                    👍 {userComment[i].snippet.likeCount}
+                  </p>
+                  <p className="video_comment_update">
+                    {calculateElapsedTime(userComment[i].snippet.updatedAt)}
+                  </p>
+                </div>
+
+                {isModalOpen && i == selectedCommentIndex && (
+                  <div>
+                    <div id="myModal" className="video_popup">
+                      <div className="video_popup-content">
+                        {/* <span
                             className="video_close"
                             onClick={() => {
                               handleCloseModal();
@@ -177,75 +176,66 @@ function Video(props) {
                             }}
                           >
                             &times;
-                          </span>
-                          <h2 className="video_modal_title">
-                            {modalTitle.snippet.textOriginal}
-                          </h2>
-                          <div className="video_modal_title_sub">
-                            <span className="video_modal_like">
-                              👍 {modalTitle.snippet.likeCount}
-                            </span>
-                            <span>
-                              {calculateElapsedTime(modalTitle.snippet.updatedAt)}
-                            </span>
-                          </div>
-                          <div className="video_modal_form">
-                            <input
-                              onChange={(e) => {
-                                setCreateComment(e.target.value);
-                                setCreateCommentId(modalTitle.id);
-                              }}
-                              placeholder="댓글추가.."
+                          </span> */}
+
+                        <div className="video_modal_form">
+                          <input
+                            onChange={(e) => {
+                              setCreateComment(e.target.value);
+                              setCreateCommentId(modalTitle.id);
+                            }}
+                            placeholder="댓글추가.."
+                          />
+                          <button onClick={() => addComment()}>댓글</button>
+                        </div>
+                        {modalContent.map((a, i) => (
+                          <div className="video_modal_content" key={i}>
+                            <img
+                              className="video_recomment_img"
+                              src={
+                                modalContent[i].snippet.authorProfileImageUrl
+                              }
                             />
-                            <button onClick={() => addComment()}>댓글</button>
-                          </div>
-                          {modalContent.map((a, i) => (
-                            <div className="video_modal_content" key={i}>
-                              <div>{modalContent[i].snippet.authorDisplayName}</div>
-                              <div className="video_modal_text">
+                            <div className="video_recomment_main">
+                              <div className="video_recomment_head">
+                                <div className="video_recomment_username">
+                                  {modalContent[i].snippet.authorDisplayName}
+                                </div>
+                                <div className="video_recomment_update">
+                                  {calculateElapsedTime(
+                                    modalContent[i].snippet.updatedAt
+                                  )}
+                                </div>
+                              </div>
+
+                              <div className="video_recomment_text">
                                 {modalContent[i].snippet.textOriginal}
                               </div>
-                              <span>
-                                {calculateElapsedTime(modalContent[i].snippet.updatedAt)}
-                              </span>
-                              <button
-                                onClick={() => {
-                                  removeComment(modalContent[i].id);
-                                }}
-                              >
-                                삭제
-                              </button>
-                              {recommentState[i] ? ( // 대댓글쓰기
-                                <>
-                                  <input
-                                    onChange={(e) => {
-                                      setCreateComment(
-                                        "@" +
-                                          modalContent[i].snippet.authorDisplayName +
-                                          e.target.value
-                                      );
-                                      setCreateCommentId(modalTitle.id);
-                                    }}
-                                  ></input>
-                                  <button onClick={() => handleRecommentClick(i)}>
-                                    취소
-                                  </button>
-                                  <button onClick={() => addComment()}>답글</button>
-                                </>
-                              ) : (
-                                <button onClick={() => handleRecommentClick(i)}>
-                                  답글
-                                </button>
-                              )}
+                              <div className="video_recomment_bottom">
+                                <div className="video_recomment_like">
+                                  👍 {modalContent[i].snippet.likeCount}
+                                </div>
+                                <span>답글</span>
+                              </div>
                             </div>
-                          ))}
-                        </div>
+
+                            <span
+                              className="video_recomment_remove"
+                              onClick={() => {
+                                removeComment(modalContent[i].id);
+                              }}
+                            >
+                              삭제
+                            </span>
+                          </div>
+                        ))}
                       </div>
                     </div>
-                  )}
-                </div>
-              );
-            })}
+                  </div>
+                )}
+              </div>
+            );
+          })}
         </div>
       </div>
     </div>
