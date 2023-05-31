@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./Navbar.css";
 import { Routes, Route, Link } from "react-router-dom";
 import Login from "../login/login";
+import { useSelector } from 'react-redux';
 function Navbar() {
   let [bg, setBg] = useState(["active", "", "", ""]);
 
