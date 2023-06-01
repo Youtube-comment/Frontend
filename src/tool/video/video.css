@@ -2,42 +2,34 @@
   margin-top: 30px;
   width: 90%;
 }
-.video_modal_title_sub {
-  display: flex;
-  margin-bottom: 30px;
-  justify-content: end;
-}
 
-.video_comment_list{
+.video_comment_list {
   display: flex;
   flex-direction: column;
   justify-content: center;
   text-align: left;
-  padding : 0 10px;
+  padding: 0 10px;
   border-radius: 10px;
-  background: white;
+  background: rgba(255, 255, 255, 0.88);
   width: 80%;
   height: auto;
   margin: 5px auto;
+  border-radius: 15px;
+  box-shadow: 0px 2px 10px rgb(0 0 0 / 25%);
 }
-
-.video_modal_like {
-  margin-right: 30px;
-}
-
-.video_modal_content {
+.video_comment_block {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
 }
 
-.video_modal_content > span {
-  margin-left: 70%;
+.video_comment_like {
+  margin-left: auto; /* 왼쪽 여백을 최대한 늘려서 오른쪽 끝으로 배치합니다. */
 }
 
+.video_comment_update {
+  margin-left: 20px; /* 필요하다면 왼쪽 여백을 지정하여 간격을 조절합니다. */
+}
 
-
-.video_containor{
+.video_containor {
   display: flex;
   flex-direction: column;
 }
@@ -47,16 +39,67 @@
   height: 100%;
 }
 
-.video_title{
+.video_title {
   text-align: left;
-  padding-left : 115px;
+  padding-left: 115px;
 }
 
-.video_comment_user{
+.video_comment_user {
   margin: 10px 0;
   font-weight: bold;
 }
 
-.video_comment_content{
-  margin-bottom : 10px 0;
+.video_comment_content {
+  margin-bottom: 10px 0;
+}
+.video_popup {
+  background-color: white;
+  padding: 10px;
+}
+.video_modal_content {
+  display: flex;
+  flex-direction: row;
+}
+.video_modal_form {
+  margin-bottom: 20px;
+}
+.video_modal_content {
+  border-radius: 15px;
+  box-shadow: 0px 2px 10px rgb(0 0 0 / 25%);
+  padding: 10px;
+  margin-bottom: 20px;
+}
+.video_recomment_main {
+  display: flex;
+  flex-direction: column;
+}
+.video_recomment_img {
+  border-radius: 50%;
+  margin-right: 20px;
+  width: 50px;
+  height: 50px;
+}
+.video_recomment_head {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 5px;
+}
+.video_recomment_username {
+  margin-right: 10px;
+}
+.video_recomment_text {
+  margin-bottom: 20px;
+}
+.video_recomment_bottom {
+  display: flex;
+  flex-direction: row;
+}
+.video_recomment_update {
+}
+.video_recomment_like {
+  margin-right: 10px;
+}
+.video_recomment_remove {
+  margin-left: auto;
+  margin-right: 10px;
 }
