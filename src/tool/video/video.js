@@ -130,14 +130,16 @@ function Video(props) {
         }
       );
       const recommentdatas = get_Recomment.data.items.map((item) => item);
+
       setModalContent(recommentdatas);
-      let copy = [...recommentLength];
+      let copy = [...recommentLength]; // 가상의 state 생성
 
       recommentdatas.map((a, i) => {
-        copy.push(false);
+        // 불러온 답글의 길이만큼 copy 안에 false로 채워준다.
+        copy.push(false); // 예를 들어 불러온 답글의 갯수가 2개라면 copy 안에는 [false,false]
       });
-      setRecommentLength(copy);
-      console.log(copy);
+      setRecommentLength(copy); // copy를 답글의 길이 state 안에 넣어준다.
+      console.log(copy); // 결론은 recommentLength 안에 [false, false 생긴다.]
     } catch (error) {
       console.log(error);
     }
@@ -194,11 +196,11 @@ function Video(props) {
 
                         <div className="video_modal_form">
                           <input
+                            type="text"
                             onChange={(e) => {
                               setCreateComment(e.target.value);
                               setCreateCommentId(modalTitle.id);
                             }}
-                            placeholder="댓글추가.."
                           />
                           <button
                             onClick={() => {
@@ -238,15 +240,15 @@ function Video(props) {
                                 <span
                                   onClick={(e) => {
                                     e.stopPropagation(); //이벤트버블링 방지
-                                    let copy = [...recommentLength];
-                                    copy[i] = true;
-                                    setRecommentLength(copy);
+                                    let copy = [...recommentLength]; // 가상의 state 생성
+                                    copy[i] = true; // 예를 들어 답글이 2개인 창에서 [false,false]
+                                    setRecommentLength(copy); // 인덱스값에 맞는것을 true로 만들어줌 [false,true]
                                   }}
                                 >
                                   답글
                                 </span>
                               </div>
-                              {recommentLength[i] == true ? (
+                              {recommentLength[i] == true ? ( // 인덱스값에 맞는 값이 true 저 밑에 코드를 보여줘라
                                 <div className="video_add_recomment">
                                   <input
                                     onChange={(e) => {
