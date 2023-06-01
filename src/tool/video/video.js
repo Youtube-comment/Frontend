@@ -77,12 +77,15 @@ function Video(props) {
           headers: { Authorization: token },
         }
       );
+      let copy = [...modalContent];
+      copy.unshift(comment_response.data);
+      setModalContent(copy);
     } catch (error) {
       console.log(error);
     }
   };
 
-  const removeComment = async (removeId) => {
+  const removeComment = async (removeId, i) => {
     //답글삭제
     try {
       const remove_response = await axios.post(
@@ -94,7 +97,9 @@ function Video(props) {
           headers: { Authorization: token },
         }
       );
-      console.log("삭제완료");
+      let copy = [...modalContent];
+      copy.splice(i, 1);
+      setModalContent(copy);
     } catch (error) {
       console.log(error);
     }
@@ -186,7 +191,13 @@ function Video(props) {
                             }}
                             placeholder="댓글추가.."
                           />
-                          <button onClick={() => addComment()}>댓글</button>
+                          <button
+                            onClick={() => {
+                              addComment();
+                            }}
+                          >
+                            댓글
+                          </button>
                         </div>
                         {modalContent.map((a, i) => (
                           <div className="video_modal_content" key={i}>
@@ -222,7 +233,7 @@ function Video(props) {
                             <span
                               className="video_recomment_remove"
                               onClick={() => {
-                                removeComment(modalContent[i].id);
+                                removeComment(modalContent[i].id, i);
                               }}
                             >
                               삭제
