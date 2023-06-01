@@ -1,6 +1,6 @@
 .Navbar_profile {
     height: 100vh;
-    position: sticky;
+    position: fixed;
     float: left;
     background: #3E3E3E;
   }
@@ -28,6 +28,10 @@
     text-align: center;
 }
 
+.Navbar_menu > div:hover {
+    background: #333333;
+}
+
 .Navbar_menu_main{
     padding: 20px 0;
 }
@@ -40,9 +44,6 @@
 
 .Navbar_menu_videos{
     padding: 20px 0;
-}
-.active{
-    background: #333333;
 }
 
 .Navbar_menu_videos_item{
