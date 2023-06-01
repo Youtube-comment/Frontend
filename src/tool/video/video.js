@@ -32,17 +32,11 @@ function Video(props) {
   const token = getCookie("access_token");
   const [modalTitle, setModalTitle] = useState(""); // modal제목
   const [modalContent, setModalContent] = useState([]); // modal
-  const [isModalOpen, setIsModalOpen] = useState([]); //modal창 띄우기
+  const [isModalOpen, setIsModalOpen] = useState(false); //modal창 띄우기
   const [selectedCommentIndex, setSelectedCommentIndex] = useState();
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
-  };
-
-  const modalOpen = (index) => {
-      const updatedStates = [...isModalOpen];
-      updatedStates[index] = true;
-      setIsModalOpen(updatedStates);
   };
 
   const [createComment, setCreateComment] = useState(""); // 대댓글 뭐라고 쓸지
@@ -108,9 +102,7 @@ function Video(props) {
 
   const handleCommentClick = async (comment, index) => {
     setModalTitle(comment);
-    const updatedStates = [...isModalOpen];
-    updatedStates[index] = true;
-    setIsModalOpen(updatedStates);
+    setIsModalOpen(true);
     setSelectedCommentIndex(index);
     await getRecomment(comment.id);
   };
@@ -171,9 +163,9 @@ function Video(props) {
                   </p>
                 </div>
 
-                {isModalOpen[i] && (
-                  <div key={i}>
-                    <div  id={`myModal-${i}`} className="video_popup">
+                {isModalOpen && i == selectedCommentIndex && (
+                  <div>
+                    <div id="myModal" className="video_popup">
                       <div className="video_popup-content">
                         {/* <span
                             className="video_close"
