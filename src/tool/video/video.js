@@ -41,6 +41,7 @@ function Video(props) {
 
   const [createComment, setCreateComment] = useState(""); // 대댓글 뭐라고 쓸지
   const [createCommentId, setCreateCommentId] = useState(""); // 댓글의 id 가져오기
+  const [recommentLength, setRecommentLength] = useState([]);
 
   useEffect(() => {
     getComments();
@@ -109,6 +110,7 @@ function Video(props) {
     setModalTitle(comment);
     setIsModalOpen(true);
     setSelectedCommentIndex(index);
+
     await getRecomment(comment.id);
   };
 
@@ -129,6 +131,13 @@ function Video(props) {
       );
       const recommentdatas = get_Recomment.data.items.map((item) => item);
       setModalContent(recommentdatas);
+      let copy = [...recommentLength];
+
+      recommentdatas.map((a, i) => {
+        copy.push(false);
+      });
+      setRecommentLength(copy);
+      console.log(copy);
     } catch (error) {
       console.log(error);
     }
@@ -226,8 +235,50 @@ function Video(props) {
                                 <div className="video_recomment_like">
                                   👍 {modalContent[i].snippet.likeCount}
                                 </div>
-                                <span>답글</span>
+                                <span
+                                  onClick={(e) => {
+                                    e.stopPropagation(); //이벤트버블링 방지
+                                    let copy = [...recommentLength];
+                                    copy[i] = true;
+                                    setRecommentLength(copy);
+                                  }}
+                                >
+                                  답글
+                                </span>
                               </div>
+                              {recommentLength[i] == true ? (
+                                <div className="video_add_recomment">
+                                  <input
+                                    onChange={(e) => {
+                                      setCreateComment(e.target.value);
+                                      setCreateCommentId(modalTitle.id);
+                                    }}
+                                    placeholder="답글추가.."
+                                  />
+                                  <button
+                                    onClick={(e) => {
+                                      e.stopPropagation(); //이벤트버블링 방지
+                                      let copy = [...recommentLength];
+                                      copy[i] = false;
+                                      setRecommentLength(copy);
+                                    }}
+                                  >
+                                    취소
+                                  </button>
+                                  <button
+                                    onClick={(e) => {
+                                      addComment();
+                                      e.stopPropagation(); //이벤트버블링 방지
+                                      let copy = [...recommentLength];
+                                      copy[i] = false;
+                                      setRecommentLength(copy);
+                                    }}
+                                  >
+                                    답글
+                                  </button>
+                                  <button>GPT</button>
+                                </div>
+                              ) : null}
                             </div>
 
                             <span

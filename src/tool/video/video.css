@@ -93,6 +93,7 @@
 .video_recomment_bottom {
   display: flex;
   flex-direction: row;
+  margin-bottom: 10px;
 }
 .video_recomment_update {
 }
