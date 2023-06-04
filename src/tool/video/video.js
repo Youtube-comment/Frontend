@@ -6,25 +6,7 @@ import "./video.css";
 import axios from "axios";
 import { Button } from "bootstrap";
 import { useSelector } from "react-redux";
-
-// open api 불러오기
-const { Configuration, OpenAIApi } = require("openai");
-const configuration = new Configuration({
-  apiKey: process.env.OPENAI_API_KEY,
-});
-
-// api 함수
-
-async function apiCall() {
-  const openai = new OpenAIApi(configuration);
-
-  const completion = await openai.createCompletion({
-    model: "text-davinci-003",
-    //prompt 에 댓글만 담아주면 된다.
-    prompt: "Hello world",
-  });
-  console.log(completion.data.choices[0].text);
-}
+import ChatGpt from './../util/ChatGpt';
 
 function Video(props) {
   let { id } = useParams();
@@ -278,7 +260,10 @@ function Video(props) {
                                   >
                                     답글
                                   </button>
-                                  <button>GPT</button>
+                                  <button onClick={() => {
+                                    ChatGpt(modalContent[i].snippet.textOriginal);
+                                    ;
+                                  }}>GPT</button>
                                 </div>
                               ) : null}
                             </div>
