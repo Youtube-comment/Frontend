@@ -23,6 +23,7 @@ function Video(props) {
 
   const [createComment, setCreateComment] = useState(""); // 대댓글 뭐라고 쓸지
   const [createCommentId, setCreateCommentId] = useState(""); // 댓글의 id 가져오기
+  const [commentLength, setCommentLength] = useState([]); // 댓글 갯수 state
   const [recommentLength, setRecommentLength] = useState([]);
 
   useEffect(() => {
@@ -92,7 +93,6 @@ function Video(props) {
     setModalTitle(comment);
     setIsModalOpen(true);
     setSelectedCommentIndex(index);
-
     await getRecomment(comment.id);
   };
 
@@ -121,7 +121,6 @@ function Video(props) {
         copy.push(false); // 예를 들어 불러온 답글의 갯수가 2개라면 copy 안에는 [false,false]
       });
       setRecommentLength(copy); // copy를 답글의 길이 state 안에 넣어준다.
-      console.log(copy); // 결론은 recommentLength 안에 [false, false 생긴다.]
     } catch (error) {
       console.log(error);
     }
@@ -184,6 +183,10 @@ function Video(props) {
                               setCreateCommentId(modalTitle.id);
                             }}
                           />
+                          <label className="video_input_label">
+                            댓글추가..
+                          </label>
+                          <span className="video_input_span"></span>
                           <button
                             onClick={() => {
                               addComment();
@@ -233,12 +236,21 @@ function Video(props) {
                               {recommentLength[i] == true ? ( // 인덱스값에 맞는 값이 true 저 밑에 코드를 보여줘라
                                 <div className="video_add_recomment">
                                   <input
+                                    className="video_recomment_input"
                                     onChange={(e) => {
-                                      setCreateComment(e.target.value);
+                                      setCreateComment(
+                                        "@" +
+                                          modalContent[i].snippet
+                                            .authorDisplayName +
+                                          e.target.value
+                                      );
                                       setCreateCommentId(modalTitle.id);
                                     }}
-                                    placeholder="답글추가.."
                                   />
+                                  <label className="video_recomment_label">
+                                    답글추가..
+                                  </label>
+                                  <span className="video_recommentinput_span"></span>
                                   <button
                                     onClick={(e) => {
                                       e.stopPropagation(); //이벤트버블링 방지
