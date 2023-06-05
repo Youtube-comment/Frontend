@@ -177,6 +177,7 @@ function Video(props) {
 
                         <div className="video_modal_form">
                           <input
+                            value={createComment}
                             type="text"
                             onChange={(e) => {
                               setCreateComment(e.target.value);
@@ -193,6 +194,23 @@ function Video(props) {
                             }}
                           >
                             댓글
+                          </button>
+                          <button
+                            onClick={async () => {
+                              const comment = userComment[i]?.snippet?.textDisplay;
+                              if (comment) {
+                                try {
+                                  const response = await ChatGpt(comment);
+                                  setCreateComment(response.choices[0].message.content);
+                                  setCreateCommentId(modalTitle.id);
+                                  console.log(response.choices[0].message.content);
+                                } catch (error) {
+                                  console.log(error);
+                                }
+                              }
+                            }}
+                          >
+                            GPT
                           </button>
                         </div>
                         {modalContent.map((a, i) => (
@@ -236,6 +254,7 @@ function Video(props) {
                               {recommentLength[i] == true ? ( // 인덱스값에 맞는 값이 true 저 밑에 코드를 보여줘라
                                 <div className="video_add_recomment">
                                   <input
+                                    value={createComment}
                                     className="video_recomment_input"
                                     onChange={(e) => {
                                       setCreateComment(
@@ -272,9 +291,18 @@ function Video(props) {
                                   >
                                     답글
                                   </button>
-                                  <button onClick={() => {
-                                    ChatGpt(modalContent[i].snippet.textOriginal);
-                                    ;
+                                  <button onClick={async () => {
+                                    const comment = modalContent[i].snippet.textOriginal
+                                    if (comment) {
+                                      try {
+                                        const response = await ChatGpt(comment)
+                                        setCreateComment(response.choices[0].message.content);
+                                        setCreateCommentId(modalTitle.id);
+                                        console.log(response.choices[0].message.content)
+                                      } catch (error) {
+                                        console.log(error)
+                                      }
+                                    }
                                   }}>GPT</button>
                                 </div>
                               ) : null}
