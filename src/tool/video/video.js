@@ -82,6 +82,7 @@ function Video(props) {
       let copy = [...modalContent];
       copy.unshift(comment_response.data);
       setModalContent(copy);
+      setCreateComment("");
     } catch (error) {
       console.log(error);
     }
@@ -112,6 +113,7 @@ function Video(props) {
     setIsModalOpen(true);
     setSelectedCommentIndex(index);
     await getRecomment(comment.id);
+    setCreateComment("");
   };
 
   useEffect(() => {
