@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, useParams } from "react-router-dom";
-
 import { cookie, getCookie } from "../util/Cookie";
 import "./video.css";
 import axios from "axios";
@@ -41,6 +40,7 @@ function Video(props) {
 
   const [createComment, setCreateComment] = useState(""); // 대댓글 뭐라고 쓸지
   const [createCommentId, setCreateCommentId] = useState(""); // 댓글의 id 가져오기
+  const [recommentLength, setRecommentLength] = useState([]);
 
   useEffect(() => {
     getComments();
@@ -77,12 +77,15 @@ function Video(props) {
           headers: { Authorization: token },
         }
       );
+      let copy = [...modalContent];
+      copy.unshift(comment_response.data);
+      setModalContent(copy);
     } catch (error) {
       console.log(error);
     }
   };
 
-  const removeComment = async (removeId) => {
+  const removeComment = async (removeId, i) => {
     //답글삭제
     try {
       const remove_response = await axios.post(
@@ -94,7 +97,9 @@ function Video(props) {
           headers: { Authorization: token },
         }
       );
-      console.log("삭제완료");
+      let copy = [...modalContent];
+      copy.splice(i, 1);
+      setModalContent(copy);
     } catch (error) {
       console.log(error);
     }
@@ -104,6 +109,7 @@ function Video(props) {
     setModalTitle(comment);
     setIsModalOpen(true);
     setSelectedCommentIndex(index);
+
     await getRecomment(comment.id);
   };
 
@@ -123,7 +129,15 @@ function Video(props) {
         }
       );
       const recommentdatas = get_Recomment.data.items.map((item) => item);
+
       setModalContent(recommentdatas);
+      let copy = [...recommentLength]; // 가상의 state 생성
+
+      recommentdatas.map((a, i) => {
+        // 불러온 답글의 길이만큼 copy 안에 false로 채워준다.
+        copy.push(false); // 예를 들어 불러온 답글의 갯수가 2개라면 copy 안에는 [false,false]
+      });
+      setRecommentLength(copy); // copy를 답글의 길이 state 안에 넣어준다.
     } catch (error) {
       console.log(error);
     }
@@ -180,13 +194,21 @@ function Video(props) {
 
                         <div className="video_modal_form">
                           <input
+                            type="text"
                             onChange={(e) => {
                               setCreateComment(e.target.value);
                               setCreateCommentId(modalTitle.id);
                             }}
-                            placeholder="댓글추가.."
                           />
-                          <button onClick={() => addComment()}>댓글</button>
+                          <label>댓글추가</label>
+                          <span className="video_input_span"></span>
+                          <button
+                            onClick={() => {
+                              addComment();
+                            }}
+                          >
+                            댓글
+                          </button>
                         </div>
                         {modalContent.map((a, i) => (
                           <div className="video_modal_content" key={i}>
@@ -215,14 +237,56 @@ function Video(props) {
                                 <div className="video_recomment_like">
                                   👍 {modalContent[i].snippet.likeCount}
                                 </div>
-                                <span>답글</span>
+                                <span
+                                  onClick={(e) => {
+                                    e.stopPropagation(); //이벤트버블링 방지
+                                    let copy = [...recommentLength]; // 가상의 state 생성
+                                    copy[i] = true; // 예를 들어 답글이 2개인 창에서 [false,false]
+                                    setRecommentLength(copy); // 인덱스값에 맞는것을 true로 만들어줌 [false,true]
+                                  }}
+                                >
+                                  답글
+                                </span>
                               </div>
+                              {recommentLength[i] == true ? ( // 인덱스값에 맞는 값이 true 저 밑에 코드를 보여줘라
+                                <div className="video_add_recomment">
+                                  <input
+                                    onChange={(e) => {
+                                      setCreateComment(e.target.value);
+                                      setCreateCommentId(modalTitle.id);
+                                    }}
+                                    placeholder="답글추가.."
+                                  />
+                                  <button
+                                    onClick={(e) => {
+                                      e.stopPropagation(); //이벤트버블링 방지
+                                      let copy = [...recommentLength];
+                                      copy[i] = false;
+                                      setRecommentLength(copy);
+                                    }}
+                                  >
+                                    취소
+                                  </button>
+                                  <button
+                                    onClick={(e) => {
+                                      addComment();
+                                      e.stopPropagation(); //이벤트버블링 방지
+                                      let copy = [...recommentLength];
+                                      copy[i] = false;
+                                      setRecommentLength(copy);
+                                    }}
+                                  >
+                                    답글
+                                  </button>
+                                  <button>GPT</button>
+                                </div>
+                              ) : null}
                             </div>
 
                             <span
                               className="video_recomment_remove"
                               onClick={() => {
-                                removeComment(modalContent[i].id);
+                                removeComment(modalContent[i].id, i);
                               }}
                             >
                               삭제

@@ -4,6 +4,9 @@
   flex-direction: row;
 }
 
+.googlebtn{
+  border-radius: 10px;
+}
 
 .App_menu{
   background: #FFFFFF;
