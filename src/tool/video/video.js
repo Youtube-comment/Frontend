@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useLocation, useParams } from "react-router-dom";
 
 import { cookie, getCookie } from "../util/Cookie";
@@ -21,7 +21,8 @@ function Video(props) {
     setIsModalOpen(false);
   };
 
-  const [createComment, setCreateComment] = useState(""); // 대댓글 뭐라고 쓸지
+  const [createCom, setCreateCom] = useState([]); // 처음 댓글 달기
+  const [createComment, setCreateComment] = useState([]); // 대댓글 뭐라고 쓸지
   const [createCommentId, setCreateCommentId] = useState(""); // 댓글의 id 가져오기
   const [commentLength, setCommentLength] = useState([]); // 댓글 갯수 state
   const [recommentLength, setRecommentLength] = useState([]);
@@ -48,14 +49,14 @@ function Video(props) {
       setUser(commentdatas);
     } catch (error) {}
   };
-  const addComment = async () => {
+  const addComment = async (commentId, comment) => {
     // 답글 달기
     try {
       const comment_response = await axios.post(
         `${process.env.REACT_APP_URL}/api/post-comment-insert/`,
         {
-          parentId: createCommentId,
-          textOriginal: createComment,
+          parentId: commentId,
+          textOriginal: comment,
         },
         {
           headers: { Authorization: token },
@@ -177,10 +178,12 @@ function Video(props) {
 
                         <div className="video_modal_form">
                           <input
-                            value={createComment}
-                            type="text"
+                            value={createCom[i]} // 다음과 같이 createComment 배열을 사용하십시오.
+                            className="video_recomment_input"
                             onChange={(e) => {
-                              setCreateComment(e.target.value);
+                              let updatedCreateComments = [...createCom]; // 가상의 state 생성
+                              updatedCreateComments[i] = e.target.value;
+                              setCreateCom(updatedCreateComments); // 변경된 배열을 저장하는 setState 함수를 사용하십시오.
                               setCreateCommentId(modalTitle.id);
                             }}
                           />
@@ -190,18 +193,20 @@ function Video(props) {
                           <span className="video_input_span"></span>
                           <button
                             onClick={() => {
-                              addComment();
+                              addComment(createCommentId,createCom[i]);
                             }}
                           >
                             댓글
                           </button>
                           <button
-                            onClick={async () => {
+                            onClick={async (e) => {
                               const comment = userComment[i]?.snippet?.textDisplay;
                               if (comment) {
                                 try {
                                   const response = await ChatGpt(comment);
-                                  setCreateComment(response.choices[0].message.content);
+                                  let updatedCreateComment = [...createCom];
+                                  updatedCreateComment[i] = response.choices[0].message.content;
+                                  setCreateCom(updatedCreateComment);
                                   setCreateCommentId(modalTitle.id);
                                   console.log(response.choices[0].message.content);
                                 } catch (error) {
@@ -254,15 +259,12 @@ function Video(props) {
                               {recommentLength[i] == true ? ( // 인덱스값에 맞는 값이 true 저 밑에 코드를 보여줘라
                                 <div className="video_add_recomment">
                                   <input
-                                    value={createComment}
+                                    value={createComment[i]}
                                     className="video_recomment_input"
                                     onChange={(e) => {
-                                      setCreateComment(
-                                        "@" +
-                                          modalContent[i].snippet
-                                            .authorDisplayName +
-                                          e.target.value
-                                      );
+                                      let updatedCreateComments = [...createComment];
+                                      updatedCreateComments[i] = e.target.value;
+                                      setCreateComment(updatedCreateComments); 
                                       setCreateCommentId(modalTitle.id);
                                     }}
                                   />
@@ -282,7 +284,7 @@ function Video(props) {
                                   </button>
                                   <button
                                     onClick={(e) => {
-                                      addComment();
+                                      addComment(createCommentId, createComment[i]);
                                       e.stopPropagation(); //이벤트버블링 방지
                                       let copy = [...recommentLength];
                                       copy[i] = false;
@@ -291,19 +293,25 @@ function Video(props) {
                                   >
                                     답글
                                   </button>
-                                  <button onClick={async () => {
-                                    const comment = modalContent[i].snippet.textOriginal
-                                    if (comment) {
-                                      try {
-                                        const response = await ChatGpt(comment)
-                                        setCreateComment(response.choices[0].message.content);
-                                        setCreateCommentId(modalTitle.id);
-                                        console.log(response.choices[0].message.content)
-                                      } catch (error) {
-                                        console.log(error)
+                                  <button
+                                    onClick={async (e) => {
+                                      const comment = modalContent[i].snippet.textOriginal;
+                                      if (comment) {
+                                        try {
+                                          const response = await ChatGpt(comment);
+                                          let updatedCreateComment = [...createComment];
+                                          updatedCreateComment[i] = response.choices[0].message.content;
+                                          setCreateComment(updatedCreateComment); // 변경된 배열에 대해 setCreateComment를 호출하십시오.
+                                          setCreateCommentId(modalTitle.id);
+                                          console.log(response.choices[0].message.content);
+                                        } catch (error) {
+                                          console.log(error);
+                                        }
                                       }
-                                    }
-                                  }}>GPT</button>
+                                    }}
+                                  >
+                                    GPT
+                                  </button>
                                 </div>
                               ) : null}
                             </div>
