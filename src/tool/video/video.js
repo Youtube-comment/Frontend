@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useLocation, useParams } from "react-router-dom";
-
 import { cookie, getCookie } from "../util/Cookie";
 import "./video.css";
 import axios from "axios";
@@ -49,14 +48,15 @@ function Video(props) {
       setUser(commentdatas);
     } catch (error) {}
   };
-  const addComment = async (commentId, comment) => {
+  const addComment = async (commentId, comment,isReply, username) => {
     // 답글 달기
     try {
+      const textOriginal = isReply ? `@${username} ${comment}` : comment;
       const comment_response = await axios.post(
         `${process.env.REACT_APP_URL}/api/post-comment-insert/`,
         {
           parentId: commentId,
-          textOriginal: comment,
+          textOriginal: textOriginal,
         },
         {
           headers: { Authorization: token },
@@ -65,6 +65,7 @@ function Video(props) {
       let copy = [...modalContent];
       copy.unshift(comment_response.data);
       setModalContent(copy);
+      setCreateComment("");
     } catch (error) {
       console.log(error);
     }
@@ -95,6 +96,7 @@ function Video(props) {
     setIsModalOpen(true);
     setSelectedCommentIndex(index);
     await getRecomment(comment.id);
+    setCreateComment("");
   };
 
   useEffect(() => {
@@ -193,7 +195,7 @@ function Video(props) {
                           <span className="video_input_span"></span>
                           <button
                             onClick={() => {
-                              addComment(createCommentId,createCom[i]);
+                              addComment(createCommentId, createCom[i], false);
                             }}
                           >
                             댓글
@@ -263,7 +265,7 @@ function Video(props) {
                                     className="video_recomment_input"
                                     onChange={(e) => {
                                       let updatedCreateComments = [...createComment];
-                                      updatedCreateComments[i] = e.target.value;
+                                      updatedCreateComments[i] = e.target.value + createComment[i];
                                       setCreateComment(updatedCreateComments); 
                                       setCreateCommentId(modalTitle.id);
                                     }}
@@ -284,7 +286,7 @@ function Video(props) {
                                   </button>
                                   <button
                                     onClick={(e) => {
-                                      addComment(createCommentId, createComment[i]);
+                                      addComment(createCommentId, createComment[i], true, modalContent[i].snippet.authorDisplayName);
                                       e.stopPropagation(); //이벤트버블링 방지
                                       let copy = [...recommentLength];
                                       copy[i] = false;

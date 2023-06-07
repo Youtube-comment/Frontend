@@ -1,9 +1,18 @@
 .Navbar_profile {
     height: 100vh;
-    position: sticky;
+    position: fixed;
     float: left;
     background: #3E3E3E;
   }
+
+.Navbar_loading{
+    border-bottom: 2px solid rgb(158, 157, 157);
+    text-align: center;
+    justify-content: center;
+    padding : 57.5px 0;
+    color : white;
+    font-size: bold;
+}
   
 .Navbar_subprofile{
     display: flex;
@@ -28,6 +37,10 @@
     text-align: center;
 }
 
+.Navbar_menu > div:hover {
+    background: #333333;
+}
+
 .Navbar_menu_main{
     padding: 20px 0;
 }
@@ -41,9 +54,6 @@
 .Navbar_menu_videos{
     padding: 20px 0;
 }
-.active{
-    background: #333333;
-}
 
 .Navbar_menu_videos_item{
     font-size:large;
@@ -51,22 +61,30 @@
     color: white;
 }
 
-.Navbar_menu_profile{
+.Navbar_menu_tutorial{
     padding: 20px 0;
 }
-.Navbar_menu_profile_item{
+.Navbar_menu_tutorial_item{
     font-size:large;
     text-Decoration: none;
     color: white;
 }
-
 .Navbar_menu_logout{
-    padding: 20px 0;
+    width: 240px;
+    padding: 10px 0;
 }
 
-.Navbar_menu_logout_item{
-    font-size:large;
-    text-Decoration: none;
-    color: white;
+.Navbar_help{
+    padding : 60px 0;
+    text-align: center;
+    font-size: larger;
+    font-weight: bold;
+}
+
+.Navbar_profileImg {
+    margin-top : 10px;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
 }
   
