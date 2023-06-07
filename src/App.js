@@ -13,6 +13,7 @@ import Navbar from "./tool/Navbar/Navbar";
 import Login from "./tool/login/login";
 import List from "./tool/videolist/list";
 import { GoogleLogin, GoogleOAuthProvider } from "@react-oauth/google";
+import Tutorial from "./tool/tutorial/tutorial";
 
 function App() {
   const token = getCookie("access_token");
@@ -38,6 +39,7 @@ function App() {
             <Route path="/videos" element={<Videos token={token} />} />
             <Route path="/list" element={<List />} />
             <Route path="/" element={<Main />} />
+            <Route path="/tutorial" element={<Tutorial/>} />
           </Routes>
           </div>
         </div>

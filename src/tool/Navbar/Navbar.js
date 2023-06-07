@@ -70,7 +70,7 @@ function Navbar() {
                   )}
                 </div>
                 <div className="Navbar_subscribe">
-                  <p>구독자 수: {subCount.length > 0 ? subCount[0].statistics.subscriberCount : ' '}</p>
+                  <p>구독자 {subCount.length > 0 ? subCount[0].statistics.subscriberCount : ' '}명</p>
                 </div>
               </div>
             )}
@@ -85,9 +85,9 @@ function Navbar() {
                   Videos
                 </Link>
               </div>
-              <div className= "Navbar_menu_profile">
-                <Link to="/profile" className="Navbar_menu_profile_item">
-                  profile
+              <div className= "Navbar_menu_tutorial">
+                <Link to="/tutorial" className="Navbar_menu_tutorial_item">
+                  Tutorial
                 </Link>
               </div>
               <div className="Navbar_menu_logout">
