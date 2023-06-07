@@ -4,7 +4,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { cookie, getCookie } from "./tool/util/Cookie";
 import "./App.css";
-import { Route, Routes, Link } from "react-router-dom";
+import { Route, Routes, Link, useNavigate } from "react-router-dom";
 import Menu from "./tool/menu/menu";
 import Video from "./tool/video/video";
 import Main from "./tool/main/main";
@@ -16,6 +16,14 @@ import { GoogleLogin, GoogleOAuthProvider } from "@react-oauth/google";
 
 function App() {
   const token = getCookie("access_token");
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!token) {
+      navigate("/");
+    }
+  }, [token, navigate]);
+
   return (
     <div className="App">
       <GoogleOAuthProvider clientId={process.env.REACT_APP_CLIENT_ID}>
@@ -25,12 +33,12 @@ function App() {
         <div className="App_main">
           <Menu /> 
           <div className="App_content">
-            <Routes>
-              <Route path="video/:id" element={<Video token={token} />} />
-              <Route path="/" element={<Main />} />
-              <Route path="/videos" element={<Videos token={token} />} />
-              <Route path="/list" element={<List />} />
-            </Routes>
+          <Routes>
+            <Route path="video/:id" element={<Video token={token} />} />
+            <Route path="/videos" element={<Videos token={token} />} />
+            <Route path="/list" element={<List />} />
+            <Route path="/" element={<Main />} />
+          </Routes>
           </div>
         </div>
 

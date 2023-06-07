@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, useParams } from "react-router-dom";
-
 import { cookie, getCookie } from "../util/Cookie";
 import "./video.css";
 import axios from "axios";
