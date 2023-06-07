@@ -6,6 +6,7 @@
     display: flex;
     justify-content: left;  
     text-align: center;
+    padding-left: 40px;
 }
 
 .menu_appname{

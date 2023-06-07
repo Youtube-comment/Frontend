@@ -1,0 +1,13 @@
+.tutorial_page {
+    width: 100%;
+}
+
+.tutorial_logo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.tutorial_item {
+    display:flex;
+    margin: 40px 0px;
+}
