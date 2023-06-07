@@ -6,25 +6,7 @@ import "./video.css";
 import axios from "axios";
 import { Button } from "bootstrap";
 import { useSelector } from "react-redux";
-
-// open api 불러오기
-const { Configuration, OpenAIApi } = require("openai");
-const configuration = new Configuration({
-  apiKey: process.env.OPENAI_API_KEY,
-});
-
-// api 함수
-
-async function apiCall() {
-  const openai = new OpenAIApi(configuration);
-
-  const completion = await openai.createCompletion({
-    model: "text-davinci-003",
-    //prompt 에 댓글만 담아주면 된다.
-    prompt: "Hello world",
-  });
-  console.log(completion.data.choices[0].text);
-}
+import ChatGpt from './../util/ChatGpt';
 
 function Video(props) {
   let { id } = useParams();
@@ -197,6 +179,7 @@ function Video(props) {
 
                         <div className="video_modal_form">
                           <input
+                            value={createComment}
                             type="text"
                             onChange={(e) => {
                               setCreateComment(e.target.value);
@@ -213,6 +196,23 @@ function Video(props) {
                             }}
                           >
                             댓글
+                          </button>
+                          <button
+                            onClick={async () => {
+                              const comment = userComment[i]?.snippet?.textDisplay;
+                              if (comment) {
+                                try {
+                                  const response = await ChatGpt(comment);
+                                  setCreateComment(response.choices[0].message.content);
+                                  setCreateCommentId(modalTitle.id);
+                                  console.log(response.choices[0].message.content);
+                                } catch (error) {
+                                  console.log(error);
+                                }
+                              }
+                            }}
+                          >
+                            GPT
                           </button>
                         </div>
                         {modalContent.map((a, i) => (
@@ -256,6 +256,7 @@ function Video(props) {
                               {recommentLength[i] == true ? ( // 인덱스값에 맞는 값이 true 저 밑에 코드를 보여줘라
                                 <div className="video_add_recomment">
                                   <input
+                                    value={createComment}
                                     className="video_recomment_input"
                                     onChange={(e) => {
                                       setCreateComment(
@@ -292,7 +293,19 @@ function Video(props) {
                                   >
                                     답글
                                   </button>
-                                  <button>GPT</button>
+                                  <button onClick={async () => {
+                                    const comment = modalContent[i].snippet.textOriginal
+                                    if (comment) {
+                                      try {
+                                        const response = await ChatGpt(comment)
+                                        setCreateComment(response.choices[0].message.content);
+                                        setCreateCommentId(modalTitle.id);
+                                        console.log(response.choices[0].message.content)
+                                      } catch (error) {
+                                        console.log(error)
+                                      }
+                                    }
+                                  }}>GPT</button>
                                 </div>
                               ) : null}
                             </div>
