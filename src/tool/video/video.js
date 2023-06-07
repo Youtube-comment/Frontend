@@ -265,8 +265,8 @@ function Video(props) {
                                     className="video_recomment_input"
                                     onChange={(e) => {
                                       let updatedCreateComments = [...createComment];
-                                      updatedCreateComments[i] = e.target.value + createComment[i];
-                                      setCreateComment(updatedCreateComments); 
+                                      updatedCreateComments[i] = e.target.value;
+                                      setCreateComment(updatedCreateComments);
                                       setCreateCommentId(modalTitle.id);
                                     }}
                                   />
