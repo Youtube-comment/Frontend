@@ -47,14 +47,15 @@ function Video(props) {
       setUser(commentdatas);
     } catch (error) {}
   };
-  const addComment = async () => {
+  const addComment = async (isReply,username) => {
     // 답글 달기
     try {
+      const textOriginal = isReply ? `@${username} ${createComment}` : createComment;
       const comment_response = await axios.post(
         `${process.env.REACT_APP_URL}/api/post-comment-insert/`,
         {
           parentId: createCommentId,
-          textOriginal: createComment,
+          textOriginal: textOriginal,
         },
         {
           headers: { Authorization: token },
@@ -191,7 +192,7 @@ function Video(props) {
                           <span className="video_input_span"></span>
                           <button
                             onClick={() => {
-                              addComment();
+                              addComment(false);
                             }}
                           >
                             댓글
@@ -258,12 +259,8 @@ function Video(props) {
                                     value={createComment}
                                     className="video_recomment_input"
                                     onChange={(e) => {
-                                      setCreateComment(
-                                        "@" +
-                                          modalContent[i].snippet
-                                            .authorDisplayName +
-                                          e.target.value
-                                      );
+                                      // setCreateComment(e.target.value)
+                                      setCreateComment(e.target.value);
                                       setCreateCommentId(modalTitle.id);
                                     }}
                                   />
@@ -283,7 +280,8 @@ function Video(props) {
                                   </button>
                                   <button
                                     onClick={(e) => {
-                                      addComment();
+                                      
+                                      addComment(true,modalContent[i].snippet.authorDisplayName);
                                       e.stopPropagation(); //이벤트버블링 방지
                                       let copy = [...recommentLength];
                                       copy[i] = false;
